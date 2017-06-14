@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'file',
+    'default' => env('DEFAULT_CACHE_DRIVER') ?: 'file',
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,9 @@ return [
             'driver'  => 'memcached',
             'servers' => [
                 [
-                    'host' => '127.0.0.1', 'port' => 11211, 'weight' => 100
+                    'host' => env('MEMCACHED_HOST') ?: '127.0.0.1',
+                    'port' => env('MEMCACHED_PORT') ?: 11211,
+                    'weight' => 100,
                 ],
             ],
         ],
@@ -74,6 +76,6 @@ return [
     |
     */
 
-    'prefix' => 'october',
+    'prefix' => (env('APP_NAME') ?: 'Zabor') . '_' . env('APP_ENV'),
 
 ];

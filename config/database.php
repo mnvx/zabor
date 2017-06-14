@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => 'mysql',
+    'default' => env('DB_TYPE') ?: 'pgsql',
 
     /*
     |--------------------------------------------------------------------------
@@ -54,11 +54,11 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'port'      => '',
-            'database'  => 'database',
-            'username'  => 'root',
-            'password'  => '',
+            'host'     => env('DB_HOST') ?: 'localhost',
+            'port'     => env('DB_PORT') ?: '',
+            'database' => env('DB_DATABASE') ?: 'zabor',
+            'username' => env('DB_USERNAME') ?: 'root',
+            'password' => env('DB_PASSWORD') ?: '',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
@@ -66,11 +66,11 @@ return [
 
         'pgsql' => [
             'driver'   => 'pgsql',
-            'host'     => 'localhost',
-            'port'     => '',
-            'database' => 'database',
-            'username' => 'root',
-            'password' => '',
+            'host'     => env('DB_HOST') ?: 'localhost',
+            'port'     => env('DB_PORT') ?: '5432',
+            'database' => env('DB_DATABASE') ?: 'zabor',
+            'username' => env('DB_USERNAME') ?: 'postgres',
+            'password' => env('DB_PASSWORD') ?: '',
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
@@ -78,11 +78,11 @@ return [
 
         'sqlsrv' => [
             'driver'   => 'sqlsrv',
-            'host'     => 'localhost',
-            'port'     => '',
-            'database' => 'database',
-            'username' => 'root',
-            'password' => '',
+            'host'     => env('DB_HOST') ?: 'localhost',
+            'port'     => env('DB_PORT') ?: '',
+            'database' => env('DB_DATABASE') ?: 'zabor',
+            'username' => env('DB_USERNAME') ?: 'root',
+            'password' => env('DB_PASSWORD') ?: '',
             'prefix'   => '',
         ],
 
@@ -117,10 +117,10 @@ return [
         'cluster' => false,
 
         'default' => [
-            'host'     => '127.0.0.1',
-            'password' => null,
-            'port'     => 6379,
-            'database' => 0,
+            'host'     => env('REDIS_HOST') ?: '127.0.0.1',
+            'password' => env('REDIS_PASSWORD'),
+            'port'     => env('REDIS_PORT') ?: 6379,
+            'database' => env('REDIS_DB_INDEX') ?: 0,
         ],
 
     ],
