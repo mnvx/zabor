@@ -30,6 +30,7 @@
         "october/backend": "~1.0",
         "october/cms": "~1.0",
         "laravel/framework": "5.1.*",
+        "twig/twig": "1.33.*",
         "wikimedia/composer-merge-plugin": "dev-master"
     },
     "require-dev": {
