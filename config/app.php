@@ -137,6 +137,9 @@ return [
 
     'name' => env('APP_NAME') ?: 'Zabor',
 
-    'company' => env('COMPANY_NAME') ?: 'My Company',
+    'company' => [
+        'name' => env('COMPANY_NAME') ?: 'My Company',
+        'description' => env('COMPANY_DESCRIPTION') ?: 'My company description',
+    ],
 
 ];

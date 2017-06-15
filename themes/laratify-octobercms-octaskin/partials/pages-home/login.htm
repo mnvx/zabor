@@ -1,0 +1,17 @@
+[account]
+paramCode = "code"
+forceSecure = 0
+==
+<div class="" id="login">
+  <div class="lt-row row">
+    <div class="lt-col col s12">
+      <h2 class="lt-title">Login</h2>
+      <p class="flow-text">Войдите в систему, чтобы получить доступ ко всем возможностям управления поселком.</p>
+    </div>
+  </div>
+  {% if user %}
+    <p>Hello {{ user.name }}</p>
+  {% else %}
+    {% component 'account' %}
+  {% endif %}
+</div>
