@@ -11,7 +11,9 @@
           <li class="{% if this.page.id == 'about' %}active{% endif %}"><a href="{{ 'about'|page }}">About</a></li>
           <li class="{% if this.page.id == 'portfolio' %}active{% endif %}"><a href="{{ 'portfolio'|page }}">Portfolio</a></li>
           <li class="{% if this.page.id == 'contact' %}active{% endif %}"><a href="{{ 'contact'|page }}">Contact</a></li>
+          {% if user %}
           <li><a data-request="onLogout" data-request-data="redirect: '/good-bye'">Sign out</a></li>
+          {% endif %}
         </ul>
         <ul class="side-nav" id="mobile-menu">
           <li class="{% if this.page.id == 'home' %}active{% endif %}"><a href="{{ 'home'|page }}">Home</a></li>
@@ -19,6 +21,9 @@
           <li class="{% if this.page.id == 'about' %}active{% endif %}"><a href="{{ 'about'|page }}">About</a></li>
           <li class="{% if this.page.id == 'portfolio' %}active{% endif %}"><a href="{{ 'portfolio'|page }}">Portfolio</a></li>
           <li class="{% if this.page.id == 'contact' %}active{% endif %}"><a href="{{ 'contact'|page }}">Contact</a></li>
+          {% if user %}
+          <li><a data-request="onLogout" data-request-data="redirect: '/good-bye'">Sign out</a></li>
+          {% endif %}
         </ul>
       </div>
     </div>

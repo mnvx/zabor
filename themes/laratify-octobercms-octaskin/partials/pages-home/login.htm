@@ -1,6 +1,9 @@
-[account]
+[session]
+security = "user"
+redirect = "home"
+
+[Clake\UserExtended\Components\Account account]
 paramCode = "code"
-forceSecure = 0
 ==
 <div class="" id="login">
   <div class="lt-row row">
@@ -9,9 +12,12 @@ forceSecure = 0
       <p class="flow-text">Войдите в систему, чтобы получить доступ ко всем возможностям управления поселком.</p>
     </div>
   </div>
+  {% flash %}
+  <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">{{ message }}</div>
+  {% endflash %}
   {% if user %}
     <p>Hello {{ user.name }}</p>
   {% else %}
-    {% component 'account' %}
+  {% partial 'account::login' %}
   {% endif %}
 </div>
