@@ -1,15 +1,18 @@
-title = "Новости"
-url = "/news"
+title = "Blog post"
+url = "/blog/post/:slug"
 layout = "octaskin"
-is_hidden = 0
+is_hidden = 1
 
-[blogPosts]
-pageNumber = "{{ :page }}"
-postsPerPage = 10
-noPostsMessage = "No posts found"
-sortOrder = "published_at desc"
-categoryPage = "blog/category"
-postPage = "blog/post"
+[blogPost]
+slug = "{{ :slug }}"
+categoryPage = "news/category"
+==
+<?php
+function onEnd()
+{
+    $this->page->title = $this['post']->title;
+}
+?>
 ==
 <section id="lt-header" class="lt-section lt-section-fullwidth section">
   <div class="lt-container container">
@@ -22,7 +25,11 @@ postPage = "blog/post"
 <section id="lt-mainpage" class="lt-section section">
   <div class="lt-container container">
     <div class="lt-content lt-mainpage-content">
-      {% partial "pages-news/mainpage" %}
+      <div class="row">
+        <div class="col-md-12">
+          {% component 'blogPost' %}
+        </div>
+      </div>
     </div>
   </div>
 </section>

@@ -2,10 +2,6 @@ title = "Login"
 url = "/login"
 layout = "octaskin"
 is_hidden = 0
-
-[RainLab\User\Components\Account account]
-paramCode = "code"
-forceSecure = 0
 ==
 {% framework extras %}
 <section id="lt-header" class="lt-section lt-section-fullwidth section">
@@ -21,6 +17,7 @@ forceSecure = 0
     <div class="lt-content lt-mainpage-content">
       {% if user %}
     <p>Hello {{ user.name }}</p>
+    {% partial 'account::logout' %}
 {% else %}
     <p>Nobody is logged in</p>
 {% endif %}
@@ -28,7 +25,9 @@ forceSecure = 0
 {% flash %}
 <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">{{ message }}</div>
 {% endflash %}
-{% component 'account' %}
+
+{% partial 'account::login' %}
+
 
     </div>
   </div>
