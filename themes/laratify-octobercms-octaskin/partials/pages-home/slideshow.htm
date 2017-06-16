@@ -1,3 +1,4 @@
+==
 <div class="lt-row row">
   <div class="lt-col col s12">
     <div class="lt-slider slider fullscreen">
@@ -7,9 +8,11 @@
           <div class="caption center-align">
             <h2 class="lt-slider-title">{{ config('app.company.name') }}</h2>
             <h5 class="lt-slider-subtitle">{{ config('app.company.description') }}</h5>
-            <div class="lt-slider-button">
-              <a href="login" class="waves-effect waves-light btn-large primary-color-background">Войти<i class="material-icons right">input</i></a>
-            </div>
+            {% if not user %}
+              <div class="lt-slider-button">
+                <a href="{{ 'auth/signin'|page }}" class="waves-effect waves-light btn-large primary-color-background">Войти<i class="material-icons right">input</i></a>
+              </div>
+            {% endif %}
           </div>
         </li>
         <li>
@@ -17,9 +20,11 @@
           <div class="caption center-align">
             <h2 class="lt-slider-title">Объединим усилия</h2>
             <h5 class="lt-slider-subtitle">Облагородим поселок</h5>
-            <div class="lt-slider-button">
-              <a href="login" class="waves-effect waves-light btn-large primary-color-background">Войти<i class="material-icons right">input</i></a>
-            </div>
+            {% if not user %}
+              <div class="lt-slider-button">
+                <a href="{{ 'auth/signin'|page }}" class="waves-effect waves-light btn-large primary-color-background">Войти<i class="material-icons right">input</i></a>
+              </div>
+            {% endif %}
           </div>
         </li>
         <li>
@@ -27,9 +32,11 @@
           <div class="caption center-align">
             <h2 class="lt-slider-title">Сделаем жизнь в поселке приятнее</h2>
             <h5 class="lt-slider-subtitle">Мы можем!</h5>
-            <div class="lt-slider-button">
-              <a href="login" class="waves-effect waves-light btn-large primary-color-background">Войти<i class="material-icons right">input</i></a>
-            </div>
+            {% if not user %}
+              <div class="lt-slider-button">
+                <a href="{{ 'auth/signin'|page }}" class="waves-effect waves-light btn-large primary-color-background">Войти<i class="material-icons right">input</i></a>
+              </div>
+            {% endif %}
           </div>
         </li>
       </ul>

@@ -1,0 +1,32 @@
+title = "Регистрация"
+url = "/signup"
+layout = "octaskin"
+description = "Получите доступ ко всем возможностям для общения и управления посёлком"
+is_hidden = 0
+==
+{% partial "pages-login/header" %}
+
+<section id="lt-mainpage" class="lt-section section">
+  <div class="lt-container container">
+    <div class="lt-content lt-mainpage-content">
+      {% if user %}
+        <p>Hello {{ user.name }}</p>
+      {% endif %}
+
+      {% flash %}
+        <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">{{ message }}</div>
+      {% endflash %}
+
+      <div class="row">
+        <div class="col s6">
+          {% partial 'account::signup' %}
+        </div>
+        <div class="col s6">
+          {% if not user %}
+            <p class="flow-text">Если у вас ещё уже есть логин с паролем &mdash; <a href="{{ 'auth/signin'|page }}">Войдите</a> в личный кабинет.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

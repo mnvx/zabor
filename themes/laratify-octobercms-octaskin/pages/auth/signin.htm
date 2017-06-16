@@ -1,0 +1,35 @@
+title = "Вход в личный кабинет"
+url = "/signin"
+layout = "octaskin"
+description = "Получите доступ ко всем возможностям для общения и управления посёлком"
+is_hidden = 0
+==
+{% partial "pages-login/header" %}
+
+<section id="lt-mainpage" class="lt-section section">
+  <div class="lt-container container">
+    <div class="lt-content lt-mainpage-content">
+      {% if user %}
+        <p>Hello {{ user.name }}</p>
+      {% endif %}
+
+      {% flash %}
+        <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">{{ message }}</div>
+      {% endflash %}
+
+      <div class="row">
+        <div class="col s6">
+          {% partial 'account::login' %}
+          <div class="container">
+          </div>
+        </div>
+        <div class="col s6">
+          {% if not user %}
+            <p class="flow-text">Если у вас ещё нет логина с паролем &mdash; <a href="{{ 'auth/signup'|page }}">Зарегистрируйтесь</a>.</p>
+            <p class="flow-text">Я забыл свой пароль. <a href="{{ 'auth/forgot-password'|page }}">Что делать</a>?</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

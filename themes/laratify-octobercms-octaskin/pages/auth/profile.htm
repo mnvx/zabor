@@ -1,0 +1,18 @@
+title = "Профиль"
+url = "/profile"
+layout = "octaskin"
+is_hidden = 0
+==
+{% partial "pages-login/header" %}
+
+<section id="lt-mainpage" class="lt-section section">
+  <div class="lt-container container">
+    <div class="lt-content lt-mainpage-content">
+      {% flash %}
+        <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">{{ message }}</div>
+      {% endflash %}
+
+      {% partial 'account::update' %}
+    </div>
+  </div>
+</section>
