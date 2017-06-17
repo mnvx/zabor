@@ -1,0 +1,24 @@
+title = "Доступ запрещён"
+url = "/access-denied"
+layout = "octaskin"
+description = "Доступ к таким страницам есть только у зарегистрированных пользователей"
+is_hidden = 0
+==
+<section id="lt-header" class="lt-section lt-section-fullwidth section">
+  <div class="lt-container container">
+    <div class="lt-content lt-header-content">
+      {% partial "pages-news/header" %}
+    </div>
+  </div>
+</section>
+
+<section id="lt-mainpage" class="lt-section section">
+  <div class="lt-container container">
+    <div class="lt-content lt-mainpage-content">
+
+      {% if not user %}
+        <p class="flow-text">Если у вас ещё нет логина с паролем &mdash; <a href="{{ 'auth/signup'|page }}">Зарегистрируйтесь</a>.</p>
+        <p class="flow-text">Я забыл свой пароль. <a href="{{ 'auth/forgot-password'|page }}">Что делать</a>?</p>
+      {% endif %}
+    </div>
+  </div>

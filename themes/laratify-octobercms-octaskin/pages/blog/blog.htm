@@ -2,7 +2,7 @@ title = "Новости"
 url = "/blog"
 layout = "octaskin"
 description = "Важные и просто интересные события нашего посёлка"
-is_hidden = 1
+is_hidden = 0
 
 [blogPosts]
 pageNumber = "{{ :page }}"
@@ -17,6 +17,10 @@ postPage = "blog/post"
 slug = "{{ :slug }}"
 displayEmpty = 0
 categoryPage = "blog/category"
+
+[session]
+security = "user"
+redirect = "access-denied"
 ==
 <section id="lt-header" class="lt-section lt-section-fullwidth section">
   <div class="lt-container container">
