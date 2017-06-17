@@ -8,6 +8,10 @@ slug = "{{ :slug }}"
 categoryPage = "news/category"
 
 [commentsPost]
+
+[session]
+security = "user"
+redirect = "access-denied"
 ==
 <?php
 function onEnd()

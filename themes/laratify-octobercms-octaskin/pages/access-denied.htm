@@ -16,6 +16,10 @@ is_hidden = 0
   <div class="lt-container container">
     <div class="lt-content lt-mainpage-content">
 
+      {% flash %}
+        <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">{{ message }}</div>
+      {% endflash %}
+
       {% if not user %}
         <p class="flow-text">Если у вас ещё нет логина с паролем &mdash; <a href="{{ 'auth/signup'|page }}">Зарегистрируйтесь</a>.</p>
         <p class="flow-text">Я забыл свой пароль. <a href="{{ 'auth/forgot-password'|page }}">Что делать</a>?</p>
