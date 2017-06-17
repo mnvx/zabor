@@ -1,8 +1,12 @@
 title = "Регистрация"
-url = "/signup"
+url = "/signup/:code"
 layout = "octaskin"
 description = "Получите доступ ко всем возможностям для общения и управления посёлком"
 is_hidden = 0
+
+[RainLab\User\Components\Account account2]
+paramCode = "code"
+forceSecure = 0
 ==
 {% partial "pages-login/header" %}
 
