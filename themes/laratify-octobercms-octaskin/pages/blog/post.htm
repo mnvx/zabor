@@ -6,6 +6,8 @@ is_hidden = 1
 [blogPost]
 slug = "{{ :slug }}"
 categoryPage = "news/category"
+
+[commentsPost]
 ==
 <?php
 function onEnd()
@@ -28,6 +30,12 @@ function onEnd()
       <div class="row">
         <div class="col-md-12">
           {% component 'blogPost' %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+        Comments:
+          {% component 'commentsPost' %}
         </div>
       </div>
     </div>
