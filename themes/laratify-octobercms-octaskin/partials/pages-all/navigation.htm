@@ -19,12 +19,10 @@
           {% if user %}
           <li>
             <a class="dropdown-button" href="#!" data-activates="dropdown1">
-              {{ user.name }} &nbsp; 
-              <img style="max-height: 25px" 
-                src="{% if account.userAvatar.path %} {{account.userAvatar.path}} {% else %} {{'plugins/clake/userextended/assets/img/default_user.png'|app}} {% endif %}" 
-                alt="" 
-                class="circle responsive-img">
-              <i class="material-icons right">arrow_drop_down</i>
+              <div class="chip">
+                {{ user.name }} &nbsp; 
+                <img src="{% if account.userAvatar.path %} {{account.userAvatar.path}} {% else %} {{'plugins/clake/userextended/assets/img/default_user.png'|app}} {% endif %}">
+              </div>
             </a>
           </li>
           {% else %}
@@ -42,8 +40,16 @@
           <li class="{% if this.page.id == 'home' %}active{% endif %}"><a href="{{ 'home'|page }}">Главная</a></li>
           <li class="{% if this.page.id == 'blog' %}active{% endif %}"><a href="{{ 'blog/blog'|page }}">Новости</a></li>
           <li class="{% if this.page.id == 'contact' %}active{% endif %}"><a href="{{ 'contact'|page }}">Contact</a></li>
+          <li class="divider"></li>
           {% if user %}
-            <li><a class="dropdown-button" href="#!" data-activates="dropdown2">{{ user.name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+          <li>
+            <a class="dropdown-button" href="#!" data-activates="dropdown2">
+              <div class="chip">
+                {{ user.name }} &nbsp; 
+                <img src="{% if account.userAvatar.path %} {{account.userAvatar.path}} {% else %} {{'plugins/clake/userextended/assets/img/default_user.png'|app}} {% endif %}">
+              </div>
+            </a>
+          </li>
           {% else %}
             <li class="{% if this.page.id == 'auth-signin' %}active{% endif %}"><a href="{{ 'auth/signin'|page }}">Вход</a></li>
           {% endif %}
