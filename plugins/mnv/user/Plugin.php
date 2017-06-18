@@ -1,12 +1,14 @@
 <?php namespace Mnv\User;
 
 use Backend;
+use Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use October\Rain\Exception\ValidationException;
 use RainLab\User\Controllers\Users;
 use RainLab\User\Models\User;
+use Redirect;
 use System\Classes\PluginBase;
 
 /**
@@ -56,6 +58,36 @@ class Plugin extends PluginBase
                     'consent' => Lang::get('mnv.user::lang.components.account.need_accept'),
                 ]);
             }
+        });
+
+        Event::listen('cms.router.beforeRoute', function($url, $router) {
+            $whitelist = [
+                '/',
+                '/auth/*',
+                '/about',
+                '/contact',
+                '/404',
+                '/error',
+            ];
+            $whitelist = array_map(function($item) { return str_replace('/', '\\/', $item); }, $whitelist);
+            $whitelist = array_map(function($item) { return str_replace('*', '.*', $item); }, $whitelist);
+            $whitelist = array_map(function($item) { return  '/^' . $item . '$/u'; }, $whitelist);
+
+            foreach ($whitelist as $item) {
+                if (preg_match($item, $url) === 1) {
+                    return null;
+                }
+            }
+
+            $whiteGroup = 'member';
+            $user = Auth::getUser();
+            if ($user) {
+                $userGroupCodes = $user->groups->pluck('code')->toArray();
+                if (in_array($whiteGroup, $userGroupCodes)) {
+                    return null;
+                }
+            }
+            return $router->findByUrl('/auth/access-denied');
         });
     }
 

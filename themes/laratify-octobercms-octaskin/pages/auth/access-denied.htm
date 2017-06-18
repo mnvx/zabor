@@ -1,7 +1,7 @@
 title = "Доступ запрещён"
-url = "/access-denied"
+url = "/auth/access-denied"
 layout = "octaskin"
-description = "Доступ к таким страницам есть только у зарегистрированных пользователей"
+description = "Доступ к таким страницам есть только у пользователей с подтвержденной регистрацией"
 is_hidden = 0
 ==
 <section id="lt-header" class="lt-section lt-section-fullwidth section">
@@ -21,8 +21,11 @@ is_hidden = 0
       {% endflash %}
 
       {% if not user %}
+        <p class="flow-text"><a href="{{ 'auth/signin'|page }}">Войдите</a>, чтобы получить доступ.</p>
         <p class="flow-text">Если у вас ещё нет логина с паролем &mdash; <a href="{{ 'auth/signup'|page }}">Зарегистрируйтесь</a>.</p>
         <p class="flow-text">Я забыл свой пароль. <a href="{{ 'auth/forgot-password'|page }}">Что делать</a>?</p>
+      {% else %}
+        <p class="flow-text">Вы уже вошли в систему, но ваш аккаунт еще не подтвержден администратором. Дождитесь подтверждения. В случае задержки <a href="{{ 'contact'|page }}">свяжитесь</a> с администратором.</p>
       {% endif %}
     </div>
   </div>
