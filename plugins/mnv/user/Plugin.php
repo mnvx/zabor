@@ -2,6 +2,7 @@
 
 use Backend;
 use Auth;
+use Clake\Userextended\Models\UserExtended;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
@@ -48,18 +49,90 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
+        // Accept terms of usage
         Event::listen('clake.ue.preregistration', function() {
             $validator = Validator::make(request()->all(), [
                 'consent' => 'required',
+                'zabor_stead' => 'required',
+                'zabor_phone' => 'required',
             ]);
 
             if ($validator->fails()) {
+                //throw new ValidationException($validator);
                 throw new ValidationException([
                     'consent' => Lang::get('mnv.user::lang.components.account.need_accept'),
                 ]);
             }
         });
 
+        // Add more fields to user model
+        User::extend(function($model)
+        {
+            $model->addFillable([
+                'zabor_stead',
+                'zabor_phone',
+                'zabor_about',
+                'zabor_webpage',
+                'zabor_blog',
+                'zabor_facebook',
+                'zabor_twitter',
+                'zabor_skype',
+            ]);
+        });
+
+        // Add more fields to user backend form
+        Users::extendFormFields(function($form, $model, $context)
+        {
+            if (!$model instanceof User) {
+                return;
+            }
+            $form->addTabFields([
+                'zabor_stead' => [
+                    'label' => 'mnv.user::fields.profile.stead',
+                    'tab'   => 'mnv.user::fields.profile.tab',
+                    'span'  => 'auto'
+                ],
+                'zabor_phone' => [
+                    'label' => 'mnv.user::fields.profile.phone',
+                    'tab'   => 'mnv.user::fields.profile.tab',
+                    'span'  => 'auto'
+                ],
+                'zabor_about' => [
+                    'label' => 'mnv.user::fields.profile.about',
+                    'tab'   => 'mnv.user::fields.profile.tab',
+                    'type'  => 'textarea',
+                    'size'  => 'small',
+                    'span'  => 'full'
+                ],
+                'zabor_webpage' => [
+                    'label' => 'mnv.user::fields.profile.webpage',
+                    'tab'   => 'mnv.user::fields.profile.tab',
+                    'span'  => 'auto'
+                ],
+                'zabor_blog' => [
+                    'label' => 'mnv.user::fields.profile.blog',
+                    'tab'   => 'mnv.user::fields.profile.tab',
+                    'span'  => 'auto'
+                ],
+                'zabor_facebook' => [
+                    'label' => 'mnv.user::fields.profile.facebook',
+                    'tab'   => 'mnv.user::fields.profile.tab',
+                    'span'  => 'auto'
+                ],
+                'zabor_twitter' => [
+                    'label' => 'mnv.user::fields.profile.twitter',
+                    'tab'   => 'mnv.user::fields.profile.tab',
+                    'span'  => 'auto'
+                ],
+                'zabor_skype' => [
+                    'label' => 'mnv.user::fields.profile.skype',
+                    'tab'   => 'mnv.user::fields.profile.tab',
+                    'span'  => 'auto'
+                ],
+            ]);
+        });
+
+        // Control permissions with white list of urls
         Event::listen('cms.router.beforeRoute', function($url, $router) {
             $whitelist = [
                 '/',
@@ -79,6 +152,7 @@ class Plugin extends PluginBase
                 }
             }
 
+            // Only users with role "member" can access content outside of white list.
             $whiteGroup = 'member';
             $user = Auth::getUser();
             if ($user) {

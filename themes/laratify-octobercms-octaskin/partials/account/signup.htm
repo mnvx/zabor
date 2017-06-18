@@ -76,6 +76,32 @@ function onRegister()
 
     {% endif %}
 
+
+    <div class="form-group">
+        <label for="registerPhone">{{ "mnv.user::fields.profile.phone"|trans }}</label>
+        <input
+                name="zabor_phone"
+                type="text"
+                class="form-control"
+                id="registerPhone"
+				required="{{attributes.options.validation}}"
+                placeholder='{{ "mnv.user::fields.profile.phone"|trans }}' />
+    </div>
+    <span data-validate-for="zabor_phone"></span><br>
+
+    <div class="form-group">
+        <label for="registerStead">{{ "mnv.user::fields.profile.stead"|trans }}</label>
+        <input
+                name="zabor_stead"
+                type="text"
+                class="form-control"
+                id="registerPhone"
+				required="{{attributes.options.validation}}"
+                placeholder='{{ "mnv.user::fields.profile.stead_comment"|trans }}' />
+    </div>
+    <span data-validate-for="zabor_stead"></span><br>
+
+
     <div class="form-group">
         <label for="registerPassword">{{ "clake.userextended::lang.components.account.password"|trans }}</label>
         <input
