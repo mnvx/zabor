@@ -45,7 +45,7 @@ class Plugin extends PluginBase
         Comments::extend(function($model) {
             $model->bindEvent('model.getAttribute', function($attribute, $value) use ($model) {
                 if ($attribute == 'avatar') {
-                    $imageUrl = $model->user->avatar
+                    $imageUrl = $model->user && $model->user->avatar
                         ? $model->user->avatar->path
                         : url('/plugins/clake/userextended/assets/img/default_user.png');
                     return '<img src="' . $imageUrl . '">';
