@@ -1,0 +1,26 @@
+title = "Подтверждение регистрации"
+url = "/auth/confirm-registration/:code?"
+layout = "octaskin"
+is_hidden = 0
+
+[RainLab\User\Components\Account account_standard]
+paramCode = "code"
+forceSecure = 0
+==
+{% partial "pages-login/header" %}
+
+<section id="lt-mainpage" class="lt-section section">
+  <div class="lt-container container">
+    <div class="lt-content lt-mainpage-content">
+      {% if user %}
+        <p>Привет, {{ user.name }}!</p>
+        <p>Спасибо, что зарегистрировались на портале. Вместе мы - сила!</p>
+        <p>Пожалуйста, дождитесь подтверждения регистрации администратором. После этого вам будут доступны необходимые функции.</p>
+      {% endif %}
+
+      {% flash %}
+        <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">{{ message }}</div>
+      {% endflash %}
+    </div>
+  </div>
+</section>

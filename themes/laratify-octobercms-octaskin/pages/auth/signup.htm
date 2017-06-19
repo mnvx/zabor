@@ -3,11 +3,17 @@ url = "/auth/signup/:code?"
 layout = "octaskin"
 description = "Получите доступ ко всем возможностям для общения и управления посёлком"
 is_hidden = 0
-
-[RainLab\User\Components\Account account2]
-redirect = "home"
-paramCode = "code"
-forceSecure = 0
+==
+<?php
+function onStart()
+{
+    $code = $this->param('code');
+    if ($code)
+    {
+        return \Redirect::to(url('auth/confirm-registration', ['code' => $code]));
+    }
+}
+?>
 ==
 {% partial "pages-login/header" %}
 
