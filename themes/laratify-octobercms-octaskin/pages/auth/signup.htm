@@ -3,6 +3,9 @@ url = "/auth/signup/:code?"
 layout = "octaskin"
 description = "Получите доступ ко всем возможностям для общения и управления посёлком"
 is_hidden = 0
+
+[Clake\UserExtended\Components\Account account]
+paramCode = "code"
 ==
 <?php
 function onStart()
