@@ -58,11 +58,44 @@ class Plugin extends PluginBase
             ]);
 
             if ($validator->fails()) {
-                //throw new ValidationException($validator);
-                throw new ValidationException([
-                    'consent' => Lang::get('mnv.user::lang.components.account.need_accept'),
-                ]);
+                throw new ValidationException($validator);
             }
+        });
+
+        // Сохраняем доп оля при регистрации профиля
+        Event::listen('clake.ue.settings.create', function($settingsManager) {
+            $validator = Validator::make(request()->all(), [
+                'zabor_stead' => 'required',
+                'zabor_phone' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+
+            $user = $settingsManager->userCheck();
+            $user->zabor_stead = request()->get('zabor_stead');
+            $user->zabor_phone = request()->get('zabor_phone');
+            $user->save();
+        });
+
+        // Сохраняем доп оля при редактировании профиля
+        Event::listen('clake.ue.settings.update', function($settingsManager) {
+            $validator = Validator::make(request()->all(), [
+                'surname' => 'required',
+                'zabor_stead' => 'required',
+                'zabor_phone' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+
+            $user = $settingsManager->userCheck();
+            $user->surname = request()->get('surname');
+            $user->zabor_stead = request()->get('zabor_stead');
+            $user->zabor_phone = request()->get('zabor_phone');
+            $user->save();
         });
 
         // Add more fields to user model
