@@ -159,7 +159,9 @@ class Comments extends ComponentBase
      */
     protected function listPosts()
     {
-        $comments = CommentsModel::where(['url' => $this->url, 'status' => CommentsModel::STATUS_APPROVED])->get();
+        $comments = CommentsModel::where(['url' => $this->url, 'status' => CommentsModel::STATUS_APPROVED])
+            ->orderBy('created_at', 'asc')
+            ->get();
         $this->count = count($comments);
         return $this->buildTree($comments);
     }

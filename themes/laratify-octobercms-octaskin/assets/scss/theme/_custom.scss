@@ -1,3 +1,11 @@
 span[data-validate-for] {
     color: #ff5722;
 }
+
+#comment-form #comment-text {
+    height: auto;
+}
+
+.comments ul li ul {
+    padding-left: 60pt;
+}
