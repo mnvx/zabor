@@ -22,13 +22,7 @@ categoryPage = "blog/category"
 security = "user"
 redirect = "auth/access-denied"
 ==
-<section id="lt-header" class="lt-section lt-section-fullwidth section">
-  <div class="lt-container container">
-    <div class="lt-content lt-header-content">
-      {% partial "pages-news/header" %}
-    </div>
-  </div>
-</section>
+{% partial "pages-news/header" %}
 
 <section id="lt-mainpage" class="lt-section section">
   <div class="lt-container container">
@@ -41,6 +35,17 @@ redirect = "auth/access-denied"
           {% component 'blogCategories' %}
         </div>
       </div>
+      
+      <div class="row">
+        <div class="lt-col col s12">
+          <div class="lt-social-buttons fixed-action-btn horizontal">
+            <a class="btn-floating btn-large waves-effect waves-light red" href="{{ 'blog/new-post'|page }}">
+              <i class="material-icons">add</i>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
