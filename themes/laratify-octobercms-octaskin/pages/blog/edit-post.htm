@@ -28,6 +28,8 @@ function onSave()
     $post->title = Html::strip(post('title'));
     $post->content = post('content');
 
+    $post->updated_at = new \DateTime;
+
     $post->save();
 
     return Redirect::to(url('blog'));
