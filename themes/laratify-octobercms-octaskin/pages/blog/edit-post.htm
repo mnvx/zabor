@@ -60,7 +60,7 @@ function onSave()
 
             <div class="row">
               <div class="input-field col s12">
-                <label for="content">Текст новости</label>
+                <label for="content">Текст новости</label><br>
                 <textarea
                         placeholder="Напишите текст новости"
                         id="content"
@@ -85,3 +85,10 @@ function onSave()
     </div>
   </div>
 </section>
+
+<link rel="stylesheet" href="{{ url('assets/vendor/simplemde-1.11.2/simplemde.min.css') }}">
+<script src="{{ url('assets/vendor/simplemde-1.11.2/simplemde.min.js') }}"></script>
+
+<script>
+    var simplemde = new SimpleMDE({ element: document.getElementById("content") });
+</script>
