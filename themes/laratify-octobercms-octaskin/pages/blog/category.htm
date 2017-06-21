@@ -1,5 +1,5 @@
 title = "Категории блога"
-url = "/blog/category/:slug"
+url = "/blog/category/:slug/:page?"
 layout = "octaskin"
 is_hidden = 0
 
@@ -34,6 +34,17 @@ redirect = "auth/access-denied"
           {% component 'blogCategories' %}
         </div>
       </div>
+      
+      <div class="row">
+        <div class="lt-col col s12">
+          <div class="lt-social-buttons fixed-action-btn horizontal">
+            <a class="btn-floating btn-large waves-effect waves-light red" href="{{ 'blog/new-post'|page }}">
+              <i class="material-icons">add</i>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
