@@ -15,7 +15,7 @@
         <ul class="right hide-on-med-and-down">
           <li class="{% if this.page.id == 'home' %}active{% endif %}"><a href="{{ 'home'|page }}">Главная</a></li>
           <li class="{% if this.page.id == 'blog' %}active{% endif %}"><a href="{{ 'blog/blog'|page }}">Новости</a></li>
-          <li class="{% if this.page.id == 'contact' %}active{% endif %}"><a href="{{ 'contact'|page }}">Contact</a></li>
+          <li class="{% if this.page.id == 'contact' %}active{% endif %}"><a href="{{ 'contact'|page }}">Контакты</a></li>
           {% if user %}
           <li>
             <a class="dropdown-button" href="#!" data-activates="dropdown1">
@@ -39,7 +39,7 @@
         <ul class="side-nav" id="mobile-menu">
           <li class="{% if this.page.id == 'home' %}active{% endif %}"><a href="{{ 'home'|page }}">Главная</a></li>
           <li class="{% if this.page.id == 'blog' %}active{% endif %}"><a href="{{ 'blog/blog'|page }}">Новости</a></li>
-          <li class="{% if this.page.id == 'contact' %}active{% endif %}"><a href="{{ 'contact'|page }}">Contact</a></li>
+          <li class="{% if this.page.id == 'contact' %}active{% endif %}"><a href="{{ 'contact'|page }}">Контакты</a></li>
           <li class="divider"></li>
           {% if user %}
           <li>

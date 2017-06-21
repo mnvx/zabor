@@ -1,9 +1,41 @@
-title = "Contact"
+title = "Форма обратной связи"
 url = "/contact"
 layout = "octaskin"
 is_hidden = 0
 ==
+<?php
+function onSend()
+{
+    $validator = Validator::make(post(), [
+        'first_name' => 'required',
+        'email' => 'required|email',
+        'stead' => 'required',
+        'message' => 'required',
+    ]);
 
+    if ($validator->fails()) {
+        throw new ValidationException($validator);
+    }
+
+    $data = [
+        'question' => post('message'),
+        'site' => config('app.url'),
+    ];
+    Mail::send('front.mail.contact', $data, function($message) {
+        $subject = 'Форма обратной связи ' . config('app.name') . ': ' .
+            post('first_name') . ' ' . post('last_name') . ' (уч. ' . post('stead') . ')';
+        $message
+            ->from(post('email'))
+            ->to(env('ADMIN_EMAIL'))
+            ->subject($subject);
+    });
+
+    Flash::success('Спасибо, ваше сообщение успешно отправлено.');
+
+    return Redirect::to(url('/'));
+}
+?>
+==
 <section id="lt-header" class="lt-section lt-section-fullwidth section">
   <div class="lt-container container">
     <div class="lt-content lt-header-content">
@@ -15,7 +47,75 @@ is_hidden = 0
 <section id="lt-mainpage" class="lt-section section">
   <div class="lt-container container">
     <div class="lt-content lt-mainpage-content">
-      {% partial "pages-contact/mainpage" %}
+
+      <div class="lt-row row">
+        <div class="lt-col col s12">
+          <h2 class="lt-title">Обратная связь</h2>
+          <p class="flow-text">Отправьте сообщение администратору сайта</p>
+        </div>
+      </div>
+
+      <div class="lt-vertical-spacer"></div>
+
+      <form
+              data-request-validate
+              data-request-flash
+              data-request="onSend"
+              id="sendMessage"
+              class="col s12">
+
+          {% flash %}
+          <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
+              <p
+                      data-control="flash-message"
+                      class="flash-message fade {{ type }}"
+                      data-interval="5">
+                  {{ message }}
+              </p>
+          </div>
+          {% endflash %}
+
+        <div class="lt-row row">
+          <div class="input-field lt-col col s6">
+            <input type="text" class="validate" id="first_name" name="first_name" autofocus>
+            <label for="first_name" class="active">Имя</label>
+            <span data-validate-for="first_name"></span>
+          </div>
+          <div class="input-field lt-col col s6">
+            <input type="text" id="last_name" name="last_name">
+            <label for="last_name">Фамилия</label>
+            <span data-validate-for="last_name"></span>
+          </div>
+        </div>
+        <div class="lt-row row">
+          <div class="input-field lt-col col s6">
+            <input type="email" class="validate" id="email" name="email">
+            <label data-success="right" data-error="wrong" for="email">Email</label>
+            <span data-validate-for="email"></span>
+          </div>
+          <div class="input-field lt-col col s6">
+            <input type="text" id="stead" class="validate" name="stead">
+            <label for="stead">Номер участка</label>
+            <span data-validate-for="stead"></span>
+          </div>
+        </div>
+        <div class="lt-row row">
+          <div class="input-field lt-col col s12">
+            <textarea id="message" class="validate materialize-textarea" name="message"></textarea>
+            <label for="message">Сообщение</label>
+            <span data-validate-for="message"></span>
+          </div>
+        </div>
+
+        <div class="lt-vertical-spacer"></div>
+
+        <div class="lt-row row">
+          <div class="lt-col col s12">
+            <button class="btn-large waves-effect waves-light" type="submit" name="action">Отправить <i class="material-icons right">send</i></button>
+          </div>
+        </div>
+      </form>
+
     </div>
   </div>
 </section>
