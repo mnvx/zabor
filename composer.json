@@ -31,12 +31,18 @@
         "october/cms": "~1.0",
         "laravel/framework": "5.1.*",
         "twig/twig": "1.33.*",
-        "wikimedia/composer-merge-plugin": "dev-master"
+        "wikimedia/composer-merge-plugin": "dev-master",
+        "maatwebsite/excel": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "phpunit/phpunit": "~4.0",
         "phpunit/phpunit-selenium": "~1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
     },
     "autoload-dev": {
         "classmap": [

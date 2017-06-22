@@ -1,0 +1,84 @@
+title = "Карта"
+url = "/map"
+layout = "octaskin"
+is_hidden = 0
+==
+<?php
+function onStart()
+{
+    $this['geoJson'] = file_get_contents(config('app.geojson.prepared_file'));
+}
+?>
+==
+<link rel="stylesheet" href="{{ url('assets/vendor/leaflet-1.0.3/leaflet.css') }}" />
+<script src="{{ url('assets/vendor/leaflet-1.0.3/leaflet.js') }}"></script>
+<style>
+    .leaflet-verticalcenter {
+        position: absolute;
+        top: 50%;
+    }
+    nav ul a {
+        color: #686868; !important
+    }
+    .white-text {
+        color: #686868 !important;
+    }
+</style>
+
+<div class="lt-row row">
+    <div class="lt-col col s12">
+        <div id="map" class="lt-slider slider fullscreen">
+        </div>
+    </div>
+</div>
+
+<script>
+    var tiliktinoLatLon = [56.0858, 36.612];
+    var zoom = 17;
+    var mymap = L.map('map').setView(tiliktinoLatLon, zoom);
+    var osmTilesUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+    L.tileLayer(osmTilesUrl, {
+        maxZoom: 19,
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+    }).addTo(mymap);
+
+    var getJsonData = {{ geoJson|raw }};
+
+    // Рисуем на карте полученные полигоны
+    L.geoJson(getJsonData, {
+        // Стиль полигонов
+        style: {
+            color: 'green',
+            weight: 1
+        },
+        // Навешиваеми свой попап на каждый полигон
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(feature.properties.data);
+        },
+        filter: function (feature, layer) {
+            return feature.properties.data !== undefined;
+        }
+    }).addTo(mymap);
+
+
+    // Move controls to other place
+    function addControlPlaceholders(map) {
+        var corners = map._controlCorners,
+            l = 'leaflet-',
+            container = map._controlContainer;
+
+        function createCorner(vSide, hSide) {
+            var className = l + vSide + ' ' + l + hSide;
+            corners[vSide + hSide] = L.DomUtil.create('div', className, container);
+        }
+
+        createCorner('verticalcenter', 'left');
+        createCorner('verticalcenter', 'right');
+    }
+    addControlPlaceholders(mymap);
+
+    // Change the position of the Zoom Control to a newly created placeholder.
+    mymap.zoomControl.setPosition('verticalcenterright');
+
+</script>

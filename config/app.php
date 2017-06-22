@@ -116,6 +116,9 @@ return [
         // 'Illuminate\Html\HtmlServiceProvider', // Example
 
         'System\ServiceProvider',
+
+        \Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ]),
 
     /*
@@ -140,6 +143,12 @@ return [
     'company' => [
         'name' => env('COMPANY_NAME') ?: 'My Company',
         'description' => env('COMPANY_DESCRIPTION') ?: 'My company description',
+    ],
+
+    'geojson' => [
+        'raw_file' => env('GEOJSON_RAW_FILE', database_path(implode(DIRECTORY_SEPARATOR, ['geojson', 'data.geojson']))),
+        'prepared_file' => env('GEOJSON_PREPARED_FILE', database_path(implode(DIRECTORY_SEPARATOR, ['geojson', 'data.prepared.geojson']))),
+        'excel_file' => env('GEOJSON_EXCEL_FILE', database_path(implode(DIRECTORY_SEPARATOR, ['excel', 'contacts.xlsx']))),
     ],
 
 ];
