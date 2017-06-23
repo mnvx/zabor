@@ -4,6 +4,17 @@ layout = "octaskin"
 is_hidden = 0
 ==
 <?php
+function onStart()
+{
+    $user = Auth::getUser();
+    if ($user) {
+        $this['first_name'] = $user->name;
+        $this['last_name'] = $user->surname;
+        $this['email'] = $user->email;
+        $this['stead'] = $user->zabor_stead;
+    }
+}
+
 function onSend()
 {
     $validator = Validator::make(post(), [
@@ -12,6 +23,10 @@ function onSend()
         'stead' => 'required',
         'message' => 'required',
     ]);
+
+    if (post('login')) {
+        return;
+    }
 
     if ($validator->fails()) {
         throw new ValidationException($validator);
@@ -31,11 +46,16 @@ function onSend()
     });
 
     Flash::success('Спасибо, ваше сообщение успешно отправлено.');
-
-    return Redirect::to(url('/'));
 }
 ?>
 ==
+<script>
+    function displayResult(data)
+    {
+        $('#result').removeClass('hide');
+        $('#sendMessage').addClass('hide');
+    }
+</script>
 <section id="lt-header" class="lt-section lt-section-fullwidth section">
   <div class="lt-container container">
     <div class="lt-content lt-header-content">
@@ -52,53 +72,65 @@ function onSend()
         <div class="lt-col col s12">
           <h2 class="lt-title">Обратная связь</h2>
           <p class="flow-text">Отправьте сообщение администратору сайта</p>
+          <p class="flow-text green-text text-darken-2 hide" id="result">Спасибо, ваше сообщение отправлено.</p>
         </div>
       </div>
 
       <div class="lt-vertical-spacer"></div>
 
       <form
-              data-request-validate
-              data-request-flash
-              data-request="onSend"
-              id="sendMessage"
-              class="col s12">
+          data-request-validate
+          data-request-flash
+          data-request="onSend"
+          data-request-success="displayResult(data);"
+          id="sendMessage"
+          class="col s12">
 
-          {% flash %}
+        {% flash %}
           <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
-              <p
-                      data-control="flash-message"
-                      class="flash-message fade {{ type }}"
-                      data-interval="5">
-                  {{ message }}
-              </p>
+            <p
+                data-control="flash-message"
+                class="flash-message fade {{ type }}"
+                data-interval="5">
+              {{ message }}
+            </p>
           </div>
-          {% endflash %}
+        {% endflash %}
 
-        <div class="lt-row row">
-          <div class="input-field lt-col col s6">
-            <input type="text" class="validate" id="first_name" name="first_name" autofocus>
-            <label for="first_name" class="active">Имя</label>
-            <span data-validate-for="first_name"></span>
+        <input type="hidden" name="login">
+
+        {% if user %}
+          <input type="hidden" name="first_name" value="{{ first_name }}">
+          <input type="hidden" name="last_name" value="{{ last_name }}">
+          <input type="hidden" name="email" value="{{ email }}">
+          <input type="hidden" name="stead" value="{{ stead }}">
+        {% else %}
+          <div class="lt-row row">
+            <div class="input-field lt-col col s6">
+              <input type="text" class="validate" id="first_name" name="first_name" autofocus>
+              <label for="first_name" class="active">Имя</label>
+              <span data-validate-for="first_name"></span>
+            </div>
+            <div class="input-field lt-col col s6">
+              <input type="text" id="last_name" name="last_name">
+              <label for="last_name">Фамилия</label>
+              <span data-validate-for="last_name"></span>
+            </div>
           </div>
-          <div class="input-field lt-col col s6">
-            <input type="text" id="last_name" name="last_name">
-            <label for="last_name">Фамилия</label>
-            <span data-validate-for="last_name"></span>
+          <div class="lt-row row">
+            <div class="input-field lt-col col s6">
+              <input type="email" class="validate" id="email" name="email">
+              <label data-success="right" data-error="wrong" for="email">Email</label>
+              <span data-validate-for="email"></span>
+            </div>
+            <div class="input-field lt-col col s6">
+              <input type="text" id="stead" class="validate" name="stead">
+              <label for="stead">Номер участка</label>
+              <span data-validate-for="stead"></span>
+            </div>
           </div>
-        </div>
-        <div class="lt-row row">
-          <div class="input-field lt-col col s6">
-            <input type="email" class="validate" id="email" name="email">
-            <label data-success="right" data-error="wrong" for="email">Email</label>
-            <span data-validate-for="email"></span>
-          </div>
-          <div class="input-field lt-col col s6">
-            <input type="text" id="stead" class="validate" name="stead">
-            <label for="stead">Номер участка</label>
-            <span data-validate-for="stead"></span>
-          </div>
-        </div>
+        {% endif %}
+
         <div class="lt-row row">
           <div class="input-field lt-col col s12">
             <textarea id="message" class="validate materialize-textarea" name="message"></textarea>
