@@ -41,7 +41,7 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-
+        // @todo subscribe for read news and refresh data in table with read marks
     }
 
     /**

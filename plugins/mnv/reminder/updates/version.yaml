@@ -1,1 +1,4 @@
 1.0.1: First version of reminder
+1.0.2:
+    - Table for store read marks
+    - create_table_news_read.php
