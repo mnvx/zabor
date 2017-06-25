@@ -1,0 +1,39 @@
+<div class="col-xs-6" id="comments-content">
+    {% set smartNews = __SELF__.getSmartNews() %}
+    <h4>Важные новости</h4>
+    {% if smartNews %}
+      <div class="collection">
+      {% for news in smartNews %}
+        <a class="collection-item" href="{{ news.url }}"><span class="new badge">{{ news.comments }}</span>{{ news.title }}</a>
+      {% endfor %}
+      </div>
+    {% else %}
+      <p>Нет новостей, отмеченных как важные.</p>
+    {% endif %}
+
+    {% set unreadNews = __SELF__.getUnreadNews() %}
+    <h4>Непрочитанные новости</h4>
+    {% if unreadNews %}
+    <div class="collection">
+      {% for news in unreadNews %}
+        <a class="collection-item" href="{{ news.url }}"><span class="new badge">{{ news.comments }}</span>{{ news.title }}</a>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p>Нет непрочитанных новостей.</p>
+    {% endif %}
+
+    {% set unreadComments = __SELF__.getUnreadComments() %}
+    <h4>Непрочитанные комментарии</h4>
+    {% if unreadComments %}
+    <div class="collection">
+      {% for news in unreadComments %}
+        <a class="collection-item" href="{{ news.url }}"><span class="new badge">{{ news.comments }}</span>{{ news.title }}</a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p>Нет непрочитанных комментариев.</p>
+    {% endif %}
+</div>
+
+
