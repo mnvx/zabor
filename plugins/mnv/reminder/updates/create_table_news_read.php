@@ -14,21 +14,17 @@ class CreateTableNewsRead extends Migration
         Schema::create($this->table, function($table)
         {
             $table->engine = 'InnoDB';
-            $table->increments('id');
-
-            $table->integer('news_id');
-            $table->foreign('news_id')->references('id')->on('rainlab_blog_posts')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('post_id');
+            $table->foreign('post_id')->references('id')->on('rainlab_blog_posts')->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->timestamp('read_at');
 
-            $table->index([
-                'news_id',
+            $table->primary([
+                'post_id',
                 'user_id',
-                'updated_at',
             ]);
         });
     }

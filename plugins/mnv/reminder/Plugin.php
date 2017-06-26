@@ -1,7 +1,8 @@
 <?php namespace Mnv\Reminder;
 
-use Backend;
 use Mnv\Reminder\Components\Reminder;
+use Mnv\Reminder\Models\NewsRead;
+use RainLab\Blog\Components\Post;
 use System\Classes\PluginBase;
 
 /**
@@ -20,7 +21,7 @@ class Plugin extends PluginBase
             'name'        => 'Reminder',
             'description' => 'Remind for new posts and comments',
             'author'      => 'mnv',
-            'icon'        => 'icon-leaf'
+            'icon'        => 'icon-bell'
         ];
     }
 
@@ -41,7 +42,11 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        // @todo subscribe for read news and refresh data in table with read marks
+        Post::extend(function($component) {
+            $component->bindEvent('component.run', function() use ($component) {
+                NewsRead::markPostAsRead($component->post->id);
+            });
+        });
     }
 
     /**
