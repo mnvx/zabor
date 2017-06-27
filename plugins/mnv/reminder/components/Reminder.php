@@ -51,7 +51,9 @@ class Reminder extends ComponentBase
             })
             ->leftJoin($commentsTable . ' as c', 'c.url', '=', DB::raw("'" . $this->blogPostPrefixUrl . "' || " . $postTable . '.slug'))
             ->where($postTable . '.created_at', '>', DB::raw("coalesce(nr.read_at, '" . $user->created_at . "'::date)"))
-            ->groupBy($postTable . '.id');
+            ->where($postTable . '.published', '=', true)
+            ->groupBy($postTable . '.id')
+            ->orderBy($postTable . '.published_at', 'desc');
 
         return $query->get();
     }
@@ -74,7 +76,9 @@ class Reminder extends ComponentBase
             })
             ->join($commentsTable . ' as c', 'c.url', '=', DB::raw("'" . $this->blogPostPrefixUrl . "' || " . $postTable . '.slug'))
             ->where('c.created_at', '>', DB::raw("coalesce(nr.read_at, '" . $user->created_at . "'::date)"))
-            ->groupBy($postTable . '.id');
+            ->where($postTable . '.published', '=', true)
+            ->groupBy($postTable . '.id')
+            ->orderBy($postTable . '.published_at', 'desc');
 
         return $query->get();
     }

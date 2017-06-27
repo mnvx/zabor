@@ -17,7 +17,12 @@
     {% if unreadNews.count() > 0 %}
     <div class="collection">
       {% for news in unreadNews %}
-        <a class="collection-item" href="{{ news.url }}"><span class="new badge">{{ news.comment_count }}</span>{{ news.title }}</a>
+        <a class="collection-item" href="{{ news.url }}">
+            {% if news.comment_count > 0 %}
+                <span class="new badge">{{ news.comment_count }}</span>
+            {% endif %}
+            {{ news.title }}
+        </a>
       {% endfor %}
     </div>
     {% else %}
@@ -29,7 +34,12 @@
     {% if unreadComments.count() > 0 %}
     <div class="collection">
       {% for news in unreadComments %}
-        <a class="collection-item" href="{{ news.url }}"><span class="new badge">{{ news.comment_count }}</span>{{ news.title }}</a>
+        <a class="collection-item" href="{{ news.url }}">
+            {% if news.comment_count > 0 %}
+                <span class="new badge">{{ news.comment_count }}</span>
+            {% endif %}
+            {{ news.title }}
+        </a>
       {% endfor %}
     </div>
     {% else %}
