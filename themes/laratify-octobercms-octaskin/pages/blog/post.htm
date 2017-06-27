@@ -16,8 +16,9 @@ redirect = "auth/access-denied"
 <?php
 function onEnd()
 {
-    $this['canEdit'] = Auth::getUser()->id == $this->blogPost->post->user_id;
-    $this->page->title = $this['post']->title;
+    $this['canEdit'] = isset($this->blogPost->post) && Auth::getUser()->id == $this->blogPost->post->user_id;
+    $this->page->title = $this['post']->title ?? 'Новость недоступна';
+    $this['hasAccess'] = isset($this->blogPost->post);
 }
 ?>
 ==
@@ -26,30 +27,35 @@ function onEnd()
 <section id="lt-mainpage" class="lt-section section">
   <div class="lt-container container">
     <div class="lt-content lt-mainpage-content">
-      <div class="row">
-        <div class="col-md-12">
-          {% component 'blogPost' %}
-        </div>
-      </div>
 
-      {% if canEdit %}
+      {% if hasAccess %}
+
         <div class="row">
-          <div class="lt-col col s12">
-            <div class="lt-social-buttons fixed-action-btn horizontal">
-              <a class="btn-floating btn-large waves-effect waves-light red" href="{{ 'blog/edit-post'|page }}">
-                <i class="material-icons">edit</i>
-              </a>
-            </div>
+          <div class="col-md-12">
+            {% component 'blogPost' %}
           </div>
         </div>
-      {% endif %}
 
-      <div class="row">
-        <div class="col-md-12">
-          Comments:
-          {% component 'commentsPost' %}
+        {% if canEdit %}
+          <div class="row">
+            <div class="lt-col col s12">
+              <div class="lt-social-buttons fixed-action-btn horizontal">
+                <a class="btn-floating btn-large waves-effect waves-light red" href="{{ 'blog/edit-post'|page }}">
+                  <i class="material-icons">edit</i>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="row">
+          <div class="col-md-12">
+            Comments:
+            {% component 'commentsPost' %}
+          </div>
         </div>
-      </div>
+
+      {% endif %}
 
     </div>
   </div>
