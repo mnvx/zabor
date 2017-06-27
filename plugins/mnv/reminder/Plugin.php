@@ -44,7 +44,9 @@ class Plugin extends PluginBase
     {
         Post::extend(function($component) {
             $component->bindEvent('component.run', function() use ($component) {
-                NewsRead::markPostAsRead($component->post->id);
+                if (isset($component->post)) {
+                    NewsRead::markPostAsRead($component->post->id);
+                }
             });
         });
     }
