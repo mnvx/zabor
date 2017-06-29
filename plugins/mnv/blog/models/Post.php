@@ -37,10 +37,15 @@ class Post extends \RainLab\Blog\Models\Post
 
     public function getAvatarAttribute()
     {
-        $user = User::find($this->user_id);
+        $user = $this->user;
         $imageUrl = $user && $user->avatar
             ? $user->avatar->path
             : url('/plugins/clake/userextended/assets/img/default_user.png');
         return '<img src="' . $imageUrl . '">';
+    }
+
+    public function getUserAttribute()
+    {
+        return User::find($this->user_id);
     }
 }
