@@ -3,13 +3,21 @@
 namespace Mnv\Blog\Models;
 
 use October\Rain\Database\Traits\Sluggable;
-use RainLab\User\Models\User;
 
 class Post extends \RainLab\Blog\Models\Post
 {
     use Sluggable;
 
     protected $slugs = ['slug' => 'title'];
+
+    public function featured_images()
+    {
+        return $this->hasMany('System\Models\File', 'attachment_id');
+    }
+
+    public $belongsTo = [
+        'user' => ['RainLab\User\Models\User']
+    ];
 
     /**
      * @inheritdoc
@@ -44,8 +52,4 @@ class Post extends \RainLab\Blog\Models\Post
         return '<img src="' . $imageUrl . '">';
     }
 
-    public function getUserAttribute()
-    {
-        return User::find($this->user_id);
-    }
 }
