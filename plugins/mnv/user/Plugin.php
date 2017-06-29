@@ -62,7 +62,7 @@ class Plugin extends PluginBase
             }
         });
 
-        // Сохраняем доп оля при регистрации профиля
+        // Сохраняем доп поля при регистрации профиля
         Event::listen('clake.ue.settings.create', function($settingsManager) {
             $validator = Validator::make(request()->all(), [
                 'zabor_stead' => 'required',

@@ -3,6 +3,7 @@
 namespace Mnv\Blog\Models;
 
 use October\Rain\Database\Traits\Sluggable;
+use RainLab\User\Models\User;
 
 class Post extends \RainLab\Blog\Models\Post
 {
@@ -32,5 +33,14 @@ class Post extends \RainLab\Blog\Models\Post
             }
         }
         $this->excerpt = implode('<br>', $excerpt);
+    }
+
+    public function getAvatarAttribute()
+    {
+        $user = User::find($this->user_id);
+        $imageUrl = $user && $user->avatar
+            ? $user->avatar->path
+            : url('/plugins/clake/userextended/assets/img/default_user.png');
+        return '<img src="' . $imageUrl . '">';
     }
 }

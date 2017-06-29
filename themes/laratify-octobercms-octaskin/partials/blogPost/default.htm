@@ -1,0 +1,37 @@
+==
+<?php
+function onStart()
+{
+    $slug = $this->getRouter()->getParameter('slug');
+    $post = \Mnv\Blog\Models\Post::where('slug', '=', $slug)->first();
+    $this['post'] = $post;
+}
+?>
+==
+<div class="content">{{ post.content_html|raw }}</div>
+
+{% if post.featured_images.count %}
+    <div class="featured-images text-center">
+        {% for image in post.featured_images %}
+            <p>
+                <img
+                    data-src="{{ image.filename }}"
+                    src="{{ image.path }}"
+                    alt="{{ image.description }}"
+                    style="max-width: 100%" />
+            </p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="info">
+    <div class="chip">{{ post.avatar|raw }} {{ user.name }}</div>
+    Опубликовано {{ post.published_at|date('d M Y') }}
+    {% if post.categories.count %} в
+        {% for category in post.categories %}
+            <div class="chip">
+                <a href="{{ category.url }}">{{ category.name }}</a>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
