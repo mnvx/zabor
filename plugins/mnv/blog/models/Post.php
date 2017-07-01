@@ -16,7 +16,7 @@ class Post extends \RainLab\Blog\Models\Post
     }
 
     public $belongsTo = [
-        'user' => ['RainLab\User\Models\User']
+        'front_user' => ['RainLab\User\Models\User']
     ];
 
     /**
@@ -26,8 +26,8 @@ class Post extends \RainLab\Blog\Models\Post
     {
         parent::beforeSave();
 
-        if (!$this->user_id) {
-            $this->user_id = \Auth::getUser()->id;
+        if (!$this->front_user_id) {
+            $this->front_user_id = \Auth::getUser()->id;
         }
 
         $excerpt = explode("\n", \Html::strip($this->content_html));
@@ -45,7 +45,7 @@ class Post extends \RainLab\Blog\Models\Post
 
     public function getAvatarAttribute()
     {
-        $user = $this->user;
+        $user = $this->front_user;
         $imageUrl = $user && $user->avatar
             ? $user->avatar->path
             : url('/plugins/clake/userextended/assets/img/default_user.png');

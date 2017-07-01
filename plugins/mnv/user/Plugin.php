@@ -79,7 +79,7 @@ class Plugin extends PluginBase
             $user->save();
         });
 
-        // Сохраняем доп оля при редактировании профиля
+        // Сохраняем доп поля при редактировании профиля
         Event::listen('clake.ue.settings.update', function($settingsManager) {
             $validator = Validator::make(request()->all(), [
                 'surname' => 'required',

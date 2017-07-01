@@ -1,1 +1,4 @@
 1.0.1: First version of blog
+1.0.2:
+    - Separate column for front user ids
+    - alter_table_rainlab_blog_posts_add_column_front_user_id.php

@@ -25,7 +25,7 @@ function onStart()
 {% endif %}
 
 <div class="info">
-    <div class="chip">{{ post.avatar|raw }} {{ post.user.name }}</div>
+    <div class="chip">{{ post.avatar|raw }} {{ post.front_user.name }}</div>
     Опубликовано {{ post.published_at|date('d M Y') }}
     {% if post.categories.count %} в
         {% for category in post.categories %}
