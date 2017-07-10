@@ -12,11 +12,31 @@ class Post extends \RainLab\Blog\Models\Post
 
     public function featured_images()
     {
-        return $this->hasMany('System\Models\File', 'attachment_id');
+        return $this->hasMany('System\Models\File', 'attachment_id')->where('field', '=', 'featured_images');
+    }
+
+    public function files()
+    {
+        return $this->hasMany('System\Models\File', 'attachment_id')->where('field', '=', 'files');
     }
 
     public $belongsTo = [
         'front_user' => ['RainLab\User\Models\User']
+    ];
+
+    public $attachMany = [
+        // parent
+        'featured_images' => [
+            'System\Models\File',
+            'order' => 'sort_order',
+            'public' => false,
+        ],
+        'content_images' => ['System\Models\File'],
+        'files' => [
+            'System\Models\File',
+            'order' => 'sort_order',
+            'public' => false,
+        ],
     ];
 
     /**
@@ -24,6 +44,10 @@ class Post extends \RainLab\Blog\Models\Post
      */
     public function beforeSave()
     {
+        foreach ($this->featured_images as $img)
+        {
+            $img->is_public = false;
+        }
         parent::beforeSave();
 
         if (!$this->front_user_id) {

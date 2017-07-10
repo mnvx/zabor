@@ -186,7 +186,7 @@ class Plugin extends PluginBase
             }
 
             // Only users with role "member" can access content outside of white list.
-            $whiteGroup = 'member';
+            $whiteGroup = 'member'; // @todo use constant
             $user = Auth::getUser();
             if ($user) {
                 $userGroupCodes = $user->groups->pluck('code')->toArray();

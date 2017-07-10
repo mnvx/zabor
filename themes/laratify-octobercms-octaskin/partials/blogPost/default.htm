@@ -24,6 +24,19 @@ function onStart()
     </div>
 {% endif %}
 
+{% if post.files.count %}
+    <div class="post-files text-center">
+        <p>Прикрепленные файлы:</p>
+        <ul>
+            {% for file in post.files %}
+            <li>
+                <a target="_blank" title="{{ file.filename }}" href="{{ file.path }}?filename={{ file.filename }}" />{{ file.filename }}</li>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
 <div class="info">
     <div class="chip">{{ post.avatar|raw }} {{ post.front_user.name }}</div>
     Опубликовано {{ post.published_at|date('d M Y') }}

@@ -1,11 +1,10 @@
-<?php namespace Mnv\Blog;
+<?php namespace Mnv\SecureResources;
 
 use Backend;
-use RainLab\Blog\Models\Post;
 use System\Classes\PluginBase;
 
 /**
- * blog Plugin Information File
+ * secureresources Plugin Information File
  */
 class Plugin extends PluginBase
 {
@@ -17,7 +16,7 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'blog',
+            'name'        => 'secureresources',
             'description' => 'No description provided yet...',
             'author'      => 'mnv',
             'icon'        => 'icon-leaf'
@@ -41,9 +40,6 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        Post::extend(function($model) {
-            $model->attachMany['featured_images']['public'] = false;
-        });
     }
 
     /**
@@ -56,7 +52,7 @@ class Plugin extends PluginBase
         return []; // Remove this line to activate
 
         return [
-            'Mnv\Blog\Components\MyComponent' => 'myComponent',
+            'Mnv\SecureResources\Components\MyComponent' => 'myComponent',
         ];
     }
 
@@ -70,8 +66,8 @@ class Plugin extends PluginBase
         return []; // Remove this line to activate
 
         return [
-            'mnv.blog.some_permission' => [
-                'tab' => 'blog',
+            'mnv.secureresources.some_permission' => [
+                'tab' => 'secureresources',
                 'label' => 'Some permission'
             ],
         ];
@@ -87,11 +83,11 @@ class Plugin extends PluginBase
         return []; // Remove this line to activate
 
         return [
-            'blog' => [
-                'label'       => 'blog',
-                'url'         => Backend::url('mnv/blog/mycontroller'),
+            'secureresources' => [
+                'label'       => 'secureresources',
+                'url'         => Backend::url('mnv/secureresources/mycontroller'),
                 'icon'        => 'icon-leaf',
-                'permissions' => ['mnv.blog.*'],
+                'permissions' => ['mnv.secureresources.*'],
                 'order'       => 500,
             ],
         ];
