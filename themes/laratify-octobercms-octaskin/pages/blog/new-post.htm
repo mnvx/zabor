@@ -52,9 +52,9 @@ function onSave()
         }
     }
 
-    // @todo store to file
-    // @todo store url to db
-
+    // By unknown reason list of posts somtime not refreshed after redirect. But delay with 1 second helps.
+    // It is really strange behaviour for me.
+    sleep(1);
     return redirect(url('blog'));
 }
 ?>
