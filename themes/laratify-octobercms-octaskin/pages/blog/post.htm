@@ -23,7 +23,7 @@ function onStart()
 
 function onEnd()
 {
-    $this['canEdit'] = isset($this->blogPost->post) && Auth::getUser()->id == $this->blogPost->post->user_id;
+    $this['canEdit'] = isset($this->blogPost->post) && Auth::getUser()->id == $this->blogPost->post->front_user_id;
     $this->page->title = $this['post']->title ?? 'Новость недоступна';
     $this['hasAccess'] = isset($this->blogPost->post);
 }
