@@ -4,7 +4,6 @@ namespace Mnv\Blog\Models;
 
 use Mnv\Blog\Models\Catalog\SurveyQuestionType;
 use October\Rain\Database\Traits\Sluggable;
-use October\Rain\Exception\ValidationException;
 
 class Post extends \RainLab\Blog\Models\Post
 {

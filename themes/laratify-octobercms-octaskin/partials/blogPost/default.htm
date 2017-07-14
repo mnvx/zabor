@@ -4,7 +4,22 @@ function onStart()
 {
     $slug = $this->getRouter()->getParameter('slug');
     $post = \Mnv\Blog\Models\Post::where('slug', '=', $slug)->first();
+    $questions = \Mnv\Blog\Models\SurveyQuestion::where('post_id', '=', $post->id)->orderBy('item_order')->get();
+
     $this['post'] = $post;
+    $this['questions'] = $questions;
+    $this['questionBooleanId'] = \Mnv\Blog\Models\Catalog\SurveyQuestionType::getIdByCode(
+        \Mnv\Blog\Models\Catalog\SurveyQuestionType::QUESTION_TYPE_BOOLEAN
+    );
+    $this['questionStringId'] = \Mnv\Blog\Models\Catalog\SurveyQuestionType::getIdByCode(
+        \Mnv\Blog\Models\Catalog\SurveyQuestionType::QUESTION_TYPE_STRING
+    );
+    $this['questionSelectId'] = \Mnv\Blog\Models\Catalog\SurveyQuestionType::getIdByCode(
+        \Mnv\Blog\Models\Catalog\SurveyQuestionType::QUESTION_TYPE_SELECT
+    );
+    $this['questionMultiselectId'] = \Mnv\Blog\Models\Catalog\SurveyQuestionType::getIdByCode(
+        \Mnv\Blog\Models\Catalog\SurveyQuestionType::QUESTION_TYPE_MULTISELECT
+    );
 }
 ?>
 ==
@@ -35,6 +50,28 @@ function onStart()
             {% endfor %}
         </ul>
     </div>
+{% endif %}
+
+{% if questions.count > 0 %}
+  {% for question in questions %}
+    <div class="row">
+      <div class="input-field col s12">
+        <h5>{{ question.question }}</h5>
+        {% if question.type == questionBooleanId %}
+          <div class="row">
+            <input name="survey_answer[ {{ question.id }} ]" type="radio" id="survey_answer_{{ question.id }}_yes" />
+            <label for="survey_answer_{{ question.id }}_yes">Да</label>
+          </div>
+          <div class="row">
+            <input name="survey_answer[ {{ question.id }} ]" type="radio" id="survey_answer_{{ question.id }}_no" />
+            <label for="survey_answer_{{ question.id }}_no">Нет</label>
+          </div>
+        {% elseif question.type == questionStringId %}
+            <input placeholder="Ответьте на вопрос" id="survey_answer[ {{ question.id }} ]" type="text" class="validate">
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
 {% endif %}
 
 <div class="info">
