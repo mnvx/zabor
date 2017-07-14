@@ -26,7 +26,12 @@ function onSave()
     $post->published = true;
     $post->published_at = new \DateTime;
 
-    $post->save();
+    try {
+        $post->save();
+    }
+    catch (\October\Rain\Exception\ValidationException $e) {
+        return redirect($this->controller->currentPageUrl())->withErrors($e->getErrors());
+    }
 
     // Store images
     if (!empty(Input::file('images')) && isset(Input::file('images')[0]) ) {

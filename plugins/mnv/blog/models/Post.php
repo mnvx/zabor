@@ -41,26 +41,10 @@ class Post extends \RainLab\Blog\Models\Post
         ],
     ];
 
-    public function afterValidate()
+    public function __construct(array $attributes = [])
     {
-        $questions = request()->get('survey', []);
-        foreach ($questions as $key => $question) {
-            if (empty($question['question'])) {
-                throw new ValidationException([
-                    'survey[' . $key . '][question]' => 'Вопрос обязателен для заполнения',
-                ]);
-            }
-            if (empty($question['type'])) {
-                throw new ValidationException([
-                    'survey[' . $key . '][type]' => 'Тип ответа обязателен для заполнения',
-                ]);
-            }
-            if (!in_array($question['type'], SurveyQuestionType::getCodes())) {
-                throw new ValidationException([
-                    'survey[' . $key . '][type]' => 'Некорректное значение',
-                ]);
-            }
-        }
+        $this->rules['title'] = 'question_required|question_type_required|question_type_correct';
+        parent::__construct($attributes);
     }
 
     /**

@@ -1,6 +1,8 @@
 <?php namespace Mnv\Blog;
 
 use Backend;
+use Mnv\Blog\Models\Validator\CustomValidator;
+use Illuminate\Support\Facades\Validator;
 use RainLab\Blog\Models\Post;
 use System\Classes\PluginBase;
 
@@ -43,6 +45,10 @@ class Plugin extends PluginBase
     {
         Post::extend(function($model) {
             $model->attachMany['featured_images']['public'] = false;
+        });
+
+        Validator::resolver(function($translator, $data, $rules, $messages, $customAttributes) {
+            return new CustomValidator($translator, $data, $rules, $messages, $customAttributes);
         });
     }
 
