@@ -2,3 +2,6 @@
 1.0.2:
     - Separate column for front user ids
     - alter_table_rainlab_blog_posts_add_column_front_user_id.php
+1.0.3:
+    - Create table for survey questions
+    - create_table_mnv_survey_questions.php

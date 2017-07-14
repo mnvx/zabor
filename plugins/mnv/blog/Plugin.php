@@ -17,10 +17,10 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'blog',
-            'description' => 'No description provided yet...',
+            'name'        => 'mnv.blog::lang.plugin.name',
+            'description' => 'mnv.blog::lang.plugin.description',
             'author'      => 'mnv',
-            'icon'        => 'icon-leaf'
+            'icon'        => 'icon-pencil',
         ];
     }
 
@@ -53,10 +53,10 @@ class Plugin extends PluginBase
      */
     public function registerComponents()
     {
-        return []; // Remove this line to activate
+        //return []; // Remove this line to activate
 
         return [
-            'Mnv\Blog\Components\MyComponent' => 'myComponent',
+            'Mnv\Blog\Components\Survey' => 'survey',
         ];
     }
 

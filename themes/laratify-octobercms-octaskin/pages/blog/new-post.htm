@@ -2,6 +2,8 @@ title = "Добавление новости"
 url = "/blog/new-post"
 layout = "octaskin"
 is_hidden = 0
+
+[survey]
 ==
 <?php
 function onSave()
@@ -77,44 +79,50 @@ function onSave()
             }}
 
             <div class="row">
-              <div class="input-field col s12">
-                <label for="title">Заголовок</label>
-                <input placeholder="Заголовок: коротко и содержательно" id="title" name="title" type="text" class="validate" autofocus>
-                <span data-validate-for="title"></span>
-              </div>
+                <div class="input-field col s12">
+                    <label for="title">Заголовок</label>
+                    <input placeholder="Заголовок: коротко и содержательно" id="title" name="title" type="text" class="validate" autofocus>
+                    <span data-validate-for="title"></span>
+                </div>
             </div>
 
             <div class="row">
-              <div class="input-field col s12">
-                <label for="content">Текст новости</label><br><br>
-                <textarea id="content" name="content" class="materialize-textarea validate"></textarea>
-                <span data-validate-for="content"></span>
-              </div>
+                <div class="input-field col s12">
+                    <label for="content">Текст новости</label><br><br>
+                    <textarea id="content" name="content" class="materialize-textarea validate"></textarea>
+                    <span data-validate-for="content"></span>
+                </div>
             </div>
 
-            <div class="row">
-              <div class="file-field input-field">
-                <div class="btn">
-                  <span>Изображения</span>
-                  <input name="images[]" type="file" id="images" accept="image/*" multiple>
-                </div>
-                <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
-                </div>
-              </div>
-            </div>
-
-              <div class="row">
-                  <div class="file-field input-field">
-                      <div class="btn">
-                          <span>Файлы</span>
-                          <input name="files[]" type="file" id="files" multiple>
-                      </div>
-                      <div class="file-path-wrapper">
-                          <input class="file-path validate" type="text">
-                      </div>
-                  </div>
-              </div>
+            <ul class="collapsible" data-collapsible="expandable">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">library_books</i>Вложения</div>
+                    <div class="collapsible-body">
+                        <div class="file-field input-field col s12">
+                            <div class="btn">
+                                <span>Изображения</span>
+                                <input name="images[]" type="file" id="images" accept="image/*" multiple>
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                        <div class="file-field input-field col s12">
+                            <div class="btn">
+                                <span>Файлы</span>
+                                <input name="files[]" type="file" id="files" multiple>
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">live_help</i>Опрос</div>
+                    <div class="collapsible-body">{% component 'survey' %}</div>
+                </li>
+            </ul>
 
             <div class="row">
               <button data-attach-loading

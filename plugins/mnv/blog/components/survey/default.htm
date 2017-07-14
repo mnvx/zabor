@@ -1,0 +1,55 @@
+<div class="row survey questions">
+</div>
+
+<div class="row survey controls">
+    <div class="input-field col s12">
+        <button
+                class="btn"
+                onclick="Survey.addQuestion(event)"
+                id="surveyAddQuestion">Добавить вопрос<i class="material-icons left">add</i></button>
+    </div>
+</div>
+
+<script type="x-tmpl-mustache" id="survey-question-template">
+{% verbatim %}
+    <div class="question">
+        <div class="row">
+            <div class="col s6">
+                <h4>Вопрос</h4>
+            </div>
+            <div class="col s6">
+                <button
+                        class="btn red right"
+                        onclick="Survey.deleteQuestion(event)">Удалить вопрос<i class="material-icons left">delete</i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input
+                        placeholder="Напишите вопрос: коротко и чётко"
+                        id="survey_question_{{ number }}"
+                        name="survey[ {{ number }} ][question]"
+                        type="text"
+                        class="validate">
+                <span data-validate-for="survey_question_{{ number }}"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s4">
+                <select
+                        id="survey_question_type_{{ number }}"
+                        name="survey[ {{ number }} ][type]">
+                    <option value="" disabled selected>Выберите</option>
+                    <option value="boolean">Да/Нет</option>
+                    <option value="string">Строка</option>
+                    <!-- @todo
+                    <option value="select">Одно из</option>
+                    <option value="multiselect">Множественный выбор</option>
+                    -->
+                </select>
+                <label>Тип ответа</label>
+            </div>
+        </div>
+    </div>
+{% endverbatim %}
+</script>

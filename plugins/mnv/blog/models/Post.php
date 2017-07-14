@@ -2,7 +2,9 @@
 
 namespace Mnv\Blog\Models;
 
+use Mnv\Blog\Models\Catalog\SurveyQuestionType;
 use October\Rain\Database\Traits\Sluggable;
+use October\Rain\Exception\ValidationException;
 
 class Post extends \RainLab\Blog\Models\Post
 {
@@ -39,6 +41,28 @@ class Post extends \RainLab\Blog\Models\Post
         ],
     ];
 
+    public function afterValidate()
+    {
+        $questions = request()->get('survey');
+        foreach ($questions as $key => $question) {
+            if (empty($question['question'])) {
+                throw new ValidationException([
+                    'survey[' . $key .'][question]' => 'Вопрос обязателен для заполнения',
+                ]);
+            }
+            if (empty($question['type'])) {
+                throw new ValidationException([
+                    'survey[' . $key .'][type]' => 'Тип ответа обязателен для заполнения',
+                ]);
+            }
+            if (!in_array($question['type'], SurveyQuestionType::getCodes())) {
+                throw new ValidationException([
+                    'survey[' . $key .'][type]' => 'Некорректное значение',
+                ]);
+            }
+        }
+    }
+
     /**
      * @inheritdoc
      */
@@ -65,6 +89,22 @@ class Post extends \RainLab\Blog\Models\Post
             }
         }
         $this->excerpt = implode('<br>', $excerpt);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterSave()
+    {
+        // Store survey questions
+        foreach (request()->get('survey') as $key => $question) {
+            SurveyQuestion::insert([
+                'post_id' => $this->id,
+                'question' => $question['question'],
+                'type' => SurveyQuestionType::getIdByCode($question['type']),
+                'item_order' => $key,
+            ]);
+        }
     }
 
     public function getAvatarAttribute()

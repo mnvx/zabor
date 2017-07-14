@@ -1,0 +1,9 @@
+.row.survey {
+    margin: 0;
+}
+.row.survey.questions {
+    padding: 1.5rem;
+}
+.row.survey.controls {
+    padding-bottom: 1rem;
+}
