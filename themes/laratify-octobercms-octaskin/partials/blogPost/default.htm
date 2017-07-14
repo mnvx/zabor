@@ -54,6 +54,11 @@ function onStart()
 
 {% if questions.count > 0 %}
   {% for question in questions %}
+    <form
+            data-request-validate
+            data-request-flash
+            data-request="onSave"
+            id="answerSurvey">
     <div class="row">
       <div class="input-field col s12">
         <h5>{{ question.question }}</h5>
@@ -72,6 +77,14 @@ function onStart()
       </div>
     </div>
   {% endfor %}
+    <div class="row">
+      <div class="input-field col s6">
+        <button data-attach-loading
+                type="submit"
+                class="btn"><i class="material-icons right">send</i>Проголосовать</button>
+      </div>
+    </div>
+  </form>
 {% endif %}
 
 <div class="info">
