@@ -14,7 +14,7 @@ function onSave()
     ]);
 
     if ($validator->fails()) {
-        throw new ValidationException($validator);
+        return redirect($this->controller->currentPageUrl())->withErrors($validator);
     }
 
     $post = new \Mnv\Blog\Models\Post;
@@ -82,7 +82,7 @@ function onSave()
                 <div class="input-field col s12">
                     <label for="title">Заголовок</label>
                     <input placeholder="Заголовок: коротко и содержательно" id="title" name="title" type="text" class="validate" autofocus>
-                    <span data-validate-for="title"></span>
+                    <span data-validate-for>{{ errors.first('title') }}</span>
                 </div>
             </div>
 
@@ -90,7 +90,7 @@ function onSave()
                 <div class="input-field col s12">
                     <label for="content">Текст новости</label><br><br>
                     <textarea id="content" name="content" class="materialize-textarea validate"></textarea>
-                    <span data-validate-for="content"></span>
+                    <span data-validate-for>{{ errors.first('content') }}</span>
                 </div>
             </div>
 
@@ -138,6 +138,10 @@ function onSave()
             {{ form_close() }}
         </div>
       </div>
+
+        {% for error in errors.all %}
+            <span data-validate-for>{{ error }}</span><br>
+        {% endfor %}
 
     </div>
   </div>

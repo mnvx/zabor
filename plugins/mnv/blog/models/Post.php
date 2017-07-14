@@ -43,21 +43,21 @@ class Post extends \RainLab\Blog\Models\Post
 
     public function afterValidate()
     {
-        $questions = request()->get('survey');
+        $questions = request()->get('survey', []);
         foreach ($questions as $key => $question) {
             if (empty($question['question'])) {
                 throw new ValidationException([
-                    'survey[' . $key .'][question]' => 'Вопрос обязателен для заполнения',
+                    'survey[' . $key . '][question]' => 'Вопрос обязателен для заполнения',
                 ]);
             }
             if (empty($question['type'])) {
                 throw new ValidationException([
-                    'survey[' . $key .'][type]' => 'Тип ответа обязателен для заполнения',
+                    'survey[' . $key . '][type]' => 'Тип ответа обязателен для заполнения',
                 ]);
             }
             if (!in_array($question['type'], SurveyQuestionType::getCodes())) {
                 throw new ValidationException([
-                    'survey[' . $key .'][type]' => 'Некорректное значение',
+                    'survey[' . $key . '][type]' => 'Некорректное значение',
                 ]);
             }
         }
@@ -97,11 +97,12 @@ class Post extends \RainLab\Blog\Models\Post
     public function afterSave()
     {
         // Store survey questions
-        foreach (request()->get('survey') as $key => $question) {
+        $questions = request()->get('survey', []);
+        foreach ($questions as $key => $question) {
             SurveyQuestion::insert([
                 'post_id' => $this->id,
-                'question' => $question['question'],
-                'type' => SurveyQuestionType::getIdByCode($question['type']),
+                'question' => isset($question['question']) ? $question['question'] : null,
+                'type' => SurveyQuestionType::getIdByCode(isset($question['type']) ? $question['type'] : null),
                 'item_order' => $key,
             ]);
         }
