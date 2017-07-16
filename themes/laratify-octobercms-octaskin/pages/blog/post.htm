@@ -12,6 +12,8 @@ categoryPage = "news/category"
 [session]
 security = "user"
 redirect = "auth/access-denied"
+
+[survey]
 ==
 <?php
 function onStart()
@@ -27,13 +29,6 @@ function onEnd()
     $this->page->title = $this['post']->title ?? 'Новость недоступна';
     $this['hasAccess'] = isset($this->blogPost->post);
 }
-
-function onSave()
-{
-    // @todo: validate, store result, redirect to news list.
-    return redirect(url('blog'));
-}
-
 ?>
 ==
 {% partial "pages-news/header" %}

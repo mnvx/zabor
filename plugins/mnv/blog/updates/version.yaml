@@ -5,3 +5,6 @@
 1.0.3:
     - Create table for survey questions
     - create_table_mnv_survey_questions.php
+1.0.4:
+    - Create table for survey answers
+    - create_table_mnv_survey_answers.php

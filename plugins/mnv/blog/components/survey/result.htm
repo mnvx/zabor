@@ -1,0 +1,17 @@
+<h4>Ваши ответы на опрос</h4>
+{% for question in questions %}
+  <div class="row">
+    <div class="input-field col s12">
+      <h5>{{ question.question }}</h5>
+      {% for answer in answers %}
+        {% if answer.question_id == question.id %}
+          {% if question.type == questionBooleanId %}
+            <p>{{ answer.value ? 'Да' : 'Нет' }}</p>
+          {% else %}
+            <p>{{ answer.value }}</p>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}

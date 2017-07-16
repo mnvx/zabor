@@ -6,7 +6,12 @@ function onStart()
     $post = \Mnv\Blog\Models\Post::where('slug', '=', $slug)->first();
     $questions = \Mnv\Blog\Models\SurveyQuestion::where('post_id', '=', $post->id)->orderBy('item_order')->get();
 
+    $questionIds = $questions->pluck('id')->toArray();
+    $answers = \Mnv\Blog\Models\SurveyAnswer::whereIn('question_id', $questionIds)->get();
+    $this['hasAnswered'] = $answers->count() > 0;
+
     $this['post'] = $post;
+    $this['answers'] = $answers;
     $this['questions'] = $questions;
     $this['questionBooleanId'] = \Mnv\Blog\Models\Catalog\SurveyQuestionType::getIdByCode(
         \Mnv\Blog\Models\Catalog\SurveyQuestionType::QUESTION_TYPE_BOOLEAN
@@ -52,39 +57,10 @@ function onStart()
     </div>
 {% endif %}
 
-{% if questions.count > 0 %}
-  {% for question in questions %}
-    <form
-            data-request-validate
-            data-request-flash
-            data-request="onSave"
-            id="answerSurvey">
-    <div class="row">
-      <div class="input-field col s12">
-        <h5>{{ question.question }}</h5>
-        {% if question.type == questionBooleanId %}
-          <div class="row">
-            <input name="survey_answer[ {{ question.id }} ]" type="radio" id="survey_answer_{{ question.id }}_yes" />
-            <label for="survey_answer_{{ question.id }}_yes">Да</label>
-          </div>
-          <div class="row">
-            <input name="survey_answer[ {{ question.id }} ]" type="radio" id="survey_answer_{{ question.id }}_no" />
-            <label for="survey_answer_{{ question.id }}_no">Нет</label>
-          </div>
-        {% elseif question.type == questionStringId %}
-            <input placeholder="Ответьте на вопрос" id="survey_answer[ {{ question.id }} ]" type="text" class="validate">
-        {% endif %}
-      </div>
-    </div>
-  {% endfor %}
-    <div class="row">
-      <div class="input-field col s6">
-        <button data-attach-loading
-                type="submit"
-                class="btn"><i class="material-icons right">send</i>Проголосовать</button>
-      </div>
-    </div>
-  </form>
+{% if not hasAnswered %}
+    {% partial 'survey::pass' questions=questions post_id=post.id %}
+{% else %}
+    {% partial 'survey::result' questions=questions answers=answers %}
 {% endif %}
 
 <div class="info">
