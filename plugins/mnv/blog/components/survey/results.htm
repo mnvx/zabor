@@ -1,0 +1,42 @@
+<h4>Все ответы на опрос</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>№</th>
+      <th>Дата</th>
+      <th>Пользователь</th>
+      <th>Участок</th>
+      {% for question in questions %}
+        <th>{{ question.question }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+
+  <tbody>
+    {% set i = 0 %}
+    {% for userAnswers in answers %}
+      {% set i = i + 1 %}
+      <tr>
+        <td>{{ i }}</td>
+        {% set break = false %}
+        {% for answer in userAnswers if not break %}
+          {% set break = true %}
+          <td>{{ answer.created_at }}</td>
+          <td>{{ answer.front_user.name }} {{ answer.front_user.surname }}</td>
+          <td>{{ answer.front_user.zabor_stead }}</td>
+        {% endfor %}
+
+        {% for question in questions %}
+          <td>
+            {% if question.type == questionBooleanId %}
+              {{ attribute(userAnswers, question.id).value ? 'Да' : 'Нет' }}
+            {% else %}
+              {{ attribute(userAnswers, question.id).value }}
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

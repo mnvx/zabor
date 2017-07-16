@@ -31,6 +31,8 @@ class CreateTableMnvSurveyAnswers extends Migration
             $table->integer('integerValue')->nullable();
             $table->float('decimalValue')->nullable();
 
+            $table->timestamps();
+
             $table->unique(['question_id', 'front_user_id']);
         });
     }

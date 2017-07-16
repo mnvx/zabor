@@ -86,6 +86,7 @@ class Survey extends ComponentBase
                     'stringValue' => null,
                     'integerValue' => null,
                     'decimalValue' => null,
+                    'created_at' => new \DateTime(),
                 ];
 
                 $questionTypeId = SurveyQuestion::find($key)->type;

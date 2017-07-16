@@ -4,13 +4,29 @@ function onStart()
 {
     $slug = $this->getRouter()->getParameter('slug');
     $post = \Mnv\Blog\Models\Post::where('slug', '=', $slug)->first();
-    $questions = \Mnv\Blog\Models\SurveyQuestion::where('post_id', '=', $post->id)->orderBy('item_order')->get();
 
+    $questions = \Mnv\Blog\Models\SurveyQuestion::where('post_id', '=', $post->id)->orderBy('item_order')->get();
     $questionIds = $questions->pluck('id')->toArray();
-    $answers = \Mnv\Blog\Models\SurveyAnswer::whereIn('question_id', $questionIds)->get();
+
+    $all = \Mnv\Blog\Models\SurveyAnswer::whereIn('question_id', $questionIds)
+        ->orderBy('created_at')
+        ->orderBy('front_user_id')
+        ->get();
+    $allAnswers = [];
+    foreach ($all as $answer) {
+        if (!isset($allAnswers[$answer->front_user_id])) {
+            $allAnswers[$answer->front_user_id] = [];
+        }
+        $allAnswers[$answer->front_user_id][$answer->question_id] = $answer;
+    }
+
+    $userId = Auth::getUser()->id;
+    $answers = \Mnv\Blog\Models\SurveyAnswer::whereIn('question_id', $questionIds)
+        ->where('front_user_id', '=', $userId)->get();
     $this['hasAnswered'] = $answers->count() > 0;
 
     $this['post'] = $post;
+    $this['allAnswers'] = $allAnswers;
     $this['answers'] = $answers;
     $this['questions'] = $questions;
     $this['questionBooleanId'] = \Mnv\Blog\Models\Catalog\SurveyQuestionType::getIdByCode(
@@ -61,6 +77,8 @@ function onStart()
     {% partial 'survey::pass' questions=questions post_id=post.id %}
 {% else %}
     {% partial 'survey::result' questions=questions answers=answers %}
+    {% partial 'survey::results' questions=questions answers=allAnswers %}
+    <br>
 {% endif %}
 
 <div class="info">
