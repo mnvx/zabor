@@ -32,7 +32,33 @@ function onSave()
 
     $post->save();
 
-    return Redirect::to(url('blog'));
+    // Delete removed files
+    if (!empty(post('delete_file'))) {
+        foreach (post('delete_file') as $fileId => $toDelete) {
+            if (!$toDelete) {
+                continue;
+            }
+            $file = System\Models\File::find($fileId);
+            $path = storage_path() . '/app/' . $file->getDiskPath();
+            File::delete($path);
+            $file->delete();
+        }
+    }
+
+    // Store new files
+    if (!empty(Input::file('add_file')) && isset(Input::file('add_file')[0])) {
+        foreach (Input::file('add_file') as $item) {
+            $file = new System\Models\File;
+            $file->data = $item;
+            $file->is_public = false;
+            $file->field = 'files';
+            $file->attachment_type = 'RainLab\Blog\Models\Post';
+            $file->save();
+            $post->files()->add($file);
+        }
+    }
+
+    return Redirect::to(url($this->controller->currentPageUrl()));
 }
 ?>
 ==
@@ -44,7 +70,16 @@ function onSave()
       <div class="row">
         <div class="col s12">
 
-          {{ form_ajax('onSave', { id: 'editPost', model: post, 'data-request-validate': '', 'data-request-flash': '' }) }}
+          {{
+              form_open({
+                  request: "onSave",
+                  id: 'editPost',
+                  model: post,
+                  files: true,
+                  validate: true,
+                  flash: true
+              })
+          }}
 
             <div class="row">
               <div class="input-field col s12">
@@ -104,7 +139,7 @@ function onSave()
                                                 <a target="_blank" title="{{ file.filename }}" href="{{ file.path }}?filename={{ file.filename }}">{{ file.filename }}</a>
                                             </div>
                                             <div class="col s2">
-                                                <input type="hidden" name="delete_file_{{ file.id }}" id="delete_file_{{ file.id }}" value="0">
+                                                <input type="hidden" name="delete_file[{{ file.id }}]" id="delete_file_{{ file.id }}" value="0">
                                                 <button type="button" class="btn red" onclick="$('#delete_file_{{ file.id }}').val(1); $('#file_{{ file.id }}').hide();">Удалить</button>
                                             </div>
                                         </div>
@@ -116,7 +151,7 @@ function onSave()
                                         <div class="file-field input-field col s12">
                                             <div class="btn">
                                                 <span>Добавить файлы</span>
-                                                <input name="files[]" type="file" id="files" multiple>
+                                                <input name="add_file[]" type="file" id="files" multiple>
                                             </div>
                                             <div class="file-path-wrapper">
                                                 <input class="file-path validate" type="text">
