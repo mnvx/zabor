@@ -32,6 +32,32 @@ function onSave()
 
     $post->save();
 
+    // Delete removed images
+    if (!empty(post('delete_image'))) {
+        foreach (post('delete_image') as $fileId => $toDelete) {
+            if (!$toDelete) {
+                continue;
+            }
+            $file = System\Models\File::find($fileId);
+            $path = storage_path() . '/app/' . $file->getDiskPath();
+            File::delete($path);
+            $file->delete();
+        }
+    }
+
+    // Store new files
+    if (!empty(Input::file('add_image')) && isset(Input::file('add_image')[0])) {
+        foreach (Input::file('add_image') as $item) {
+            $file = new System\Models\File;
+            $file->data = $item;
+            $file->is_public = false;
+            $file->field = 'featured_images';
+            $file->attachment_type = 'RainLab\Blog\Models\Post';
+            $file->save();
+            $post->featured_images()->add($file);
+        }
+    }
+
     // Delete removed files
     if (!empty(post('delete_file'))) {
         foreach (post('delete_file') as $fileId => $toDelete) {
@@ -58,7 +84,7 @@ function onSave()
         }
     }
 
-    return Redirect::to(url($this->controller->currentPageUrl()));
+    return Redirect::to(url('blog'));
 }
 ?>
 ==
@@ -113,12 +139,27 @@ function onSave()
                         <li>
                             <div class="collapsible-header"><i class="material-icons">library_books</i>Изображения</div>
                             <div class="collapsible-body">
+                                {% if post.files.count %}
+                                    <br>
+                                    {% for file in post.featured_images %}
+                                        <div class="row" id="image_{{ file.id }}">
+                                            <div class="col offset-s1 s9">
+                                                <a target="_blank" title="{{ file.filename }}" href="{{ file.path }}?filename={{ file.filename }}">{{ file.filename }}</a>
+                                            </div>
+                                            <div class="col s2">
+                                                <input type="hidden" name="delete_image[{{ file.id }}]" id="delete_image_{{ file.id }}" value="0">
+                                                <button type="button" class="btn red" onclick="$('#delete_image_{{ file.id }}').val(1); $('#image_{{ file.id }}').hide();">Удалить</button>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                {% endif %}
+
                                 <div class="row">
                                     <div class="col s12">
                                         <div class="file-field input-field col s12">
                                             <div class="btn">
                                                 <span>Добавить изображения</span>
-                                                <input name="images[]" type="file" id="images" accept="image/*" multiple>
+                                                <input name="add_image[]" type="file" id="images" accept="image/*" multiple>
                                             </div>
                                             <div class="file-path-wrapper">
                                                 <input class="file-path validate" type="text">
