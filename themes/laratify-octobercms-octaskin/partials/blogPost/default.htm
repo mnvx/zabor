@@ -91,4 +91,7 @@ function onStart()
             </div>
         {% endfor %}
     {% endif %}
+    {% if post.updated_at != post.published_at %} в
+        (Обновлено {{ post.updated_at|date('d M Y') }})
+    {% endif %}
 </div>
