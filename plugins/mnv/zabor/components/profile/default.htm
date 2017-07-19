@@ -1,0 +1,27 @@
+<div id="user-profile">
+    <div class="row">
+        <div class="col s12">
+            {% set profile = __SELF__.getUserInfo(this.param.slug) %}
+            {% if profile %}
+            <h4>{{ profile.name }} {{ profile.surname }}</h4>
+            <div class="row">
+                <div class="col s9">
+                    <p>Участок {{ profile.zabor_stead }}</p>
+                    <p>E-mail <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
+                    <p>Телефон {{ profile.zabor_phone }}</p>
+                </div>
+                <div class="col s3">
+                    <div class="avatar-small center-in-parent">
+                        <div
+                                class="responsive-circle center-in-parent"
+                                style="background-image: url({% if profile.avatar.path %} {{profile.avatar.path}} {% else %} {{'plugins/clake/userextended/assets/img/default_user.png'|app}} {% endif %})"></div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <h4>Пользователь не найден</h4>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
