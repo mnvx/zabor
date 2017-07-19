@@ -3,6 +3,7 @@
 namespace Mnv\Zabor;
 
 use Mnv\Zabor\Components\Profile;
+use Mnv\Zabor\Components\WhoWeAre;
 use System\Classes\PluginBase;
 
 /**
@@ -53,6 +54,7 @@ class Plugin extends PluginBase
     {
         return [
             Profile::class => 'profile',
+            WhoWeAre::class => 'whoweare',
         ];
     }
 

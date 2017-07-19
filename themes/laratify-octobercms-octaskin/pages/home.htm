@@ -4,6 +4,8 @@ layout = "octaskin"
 is_hidden = 0
 
 [reminder]
+
+[whoweare]
 ==
 {% if user %}
 
@@ -35,6 +37,8 @@ is_hidden = 0
   <div class="lt-container container">
     <div class="lt-content">
       {% component 'reminder' %}
+      <h4>Кто мы</h4>
+      {% component 'whoweare' %}
     </div>
   </div>
 </section>
