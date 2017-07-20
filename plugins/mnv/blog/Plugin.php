@@ -1,6 +1,7 @@
 <?php namespace Mnv\Blog;
 
 use Backend;
+use Mnv\Blog\Models\Catalog\SurveyQuestionType;
 use Mnv\Blog\Models\Validator\CustomValidator;
 use Illuminate\Support\Facades\Validator;
 use RainLab\Blog\Models\Post;
@@ -47,8 +48,41 @@ class Plugin extends PluginBase
             $model->attachMany['featured_images']['public'] = false;
         });
 
-        Validator::resolver(function($translator, $data, $rules, $messages, $customAttributes) {
-            return new CustomValidator($translator, $data, $rules, $messages, $customAttributes);
+//        Validator::resolver(function($translator, $data, $rules, $messages, $customAttributes) {
+//            return new CustomValidator($translator, $data, $rules, $messages, $customAttributes);
+//        });
+
+        Validator::extend('question_required', function($attribute, $value, $parameters, $validator) {
+            $questions = request()->get('survey', []);
+            foreach ($questions as $key => $question) {
+                if (empty($question['question'])) {
+                    CustomValidator::fail($validator, 'question', 'question_required', $parameters);
+                    //$validator->addFailure('question', 'question_required', $parameters);
+                }
+            }
+            return true;
+        });
+
+        Validator::extend('question_type_required', function($attribute, $value, $parameters, $validator) {
+            $questions = request()->get('survey', []);
+            foreach ($questions as $key => $question) {
+                if (empty($question['type'])) {
+                    CustomValidator::fail($validator, 'question[' . $key . '][type]', 'question_type_required', $parameters);
+                    //$this->addFailure('question[' . $key . '][type]', 'question_type_required', $parameters);
+                }
+            }
+            return true;
+        });
+
+        Validator::extend('question_type_correct', function($attribute, $value, $parameters, $validator) {
+            $questions = request()->get('survey', []);
+            foreach ($questions as $key => $question) {
+                if (isset($question['type']) && !in_array($question['type'], SurveyQuestionType::getCodes())) {
+                    CustomValidator::fail($validator, 'question[' . $key . '][type]', 'question_type_correct', $parameters);
+                    //$this->addFailure('question[' . $key . '][type]', 'question_type_correct', $parameters);
+                }
+            }
+            return true;
         });
     }
 

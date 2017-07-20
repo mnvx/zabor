@@ -3,8 +3,15 @@
 namespace Mnv\Blog\Models\Validator;
 
 use Mnv\Blog\Models\Catalog\SurveyQuestionType;
+use ReflectionMethod;
+use ReflectionObject;
 use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * Class CustomValidator
+ * @package Mnv\Blog\Models\Validator
+ * @unused По непонятным причинам этот валидатор мешается при обновлении профиля пользователя (пытается преобразоваться в строку).
+ */
 class CustomValidator extends \Illuminate\Validation\Validator
 {
     public function __construct(TranslatorInterface $translator, array $data, array $rules, array $messages = [], array $customAttributes = [])
@@ -49,6 +56,16 @@ class CustomValidator extends \Illuminate\Validation\Validator
             }
         }
         return true;
+    }
+
+    public static function fail($validator, $parameter, $rule, $parameters)
+    {
+        $method = new ReflectionMethod($validator, 'addFailure');
+        $method->setAccessible(true);
+        $reflector = new ReflectionObject($validator);
+        $method = $reflector->getMethod('addFailure');
+        $method->setAccessible(true);
+        $method->invoke($validator, $parameter, $rule, $parameters);
     }
 
 }
