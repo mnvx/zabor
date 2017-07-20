@@ -7,6 +7,13 @@ is_hidden = 0
 
 [whoweare]
 ==
+<?php
+function onStart()
+{
+  $this['white'] = \Mnv\SecureResources\Models\Permissions::isUserInWhiteGroup();
+}
+?>
+==
 {% if user %}
 
 <section id="lt-header" class="lt-section lt-section-fullwidth section">
@@ -36,9 +43,13 @@ is_hidden = 0
 <section id="dashboard" class="lt-section section">
   <div class="lt-container container">
     <div class="lt-content">
-      {% component 'reminder' %}
-      <h4>Кто мы</h4>
-      {% component 'whoweare' %}
+      {% if white %}
+        {% component 'reminder' %}
+        <h4>Кто мы</h4>
+        {% component 'whoweare' %}
+      {% else %}
+        <h4>Добро пожаловать</h4>
+      {% endif %}
     </div>
   </div>
 </section>
