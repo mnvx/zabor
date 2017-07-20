@@ -22,7 +22,7 @@
         {% set break = false %}
         {% for answer in userAnswers if not break %}
           {% set break = true %}
-          <td>{{ answer.created_at }}</td>
+          <td>{{ answer.created_at|date }}</td>
           <td>{{ answer.front_user.name }} {{ answer.front_user.surname }}</td>
           <td>{{ answer.front_user.zabor_stead }}</td>
         {% endfor %}
