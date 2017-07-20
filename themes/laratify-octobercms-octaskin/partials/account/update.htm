@@ -116,9 +116,9 @@
 
 {{ form_open({ files: true, request: 'onChangeAvatar' }) }}
 	<div class="form-group">
-		<label for="accountAvatar">Avatar</label>
+		<label for="accountAvatar">Аватар</label>
 		<div class="row">
-			<div class="col-sm-12 col-md-3">
+			<div class="col s12 m4">
 				<div class="avatar-small center-in-parent">
 					<div class="responsive-circle center-in-parent" style="background-image:url({% if account.userAvatar.path %} {{account.userAvatar.path}} {% else %} {{'plugins/clake/userextended/assets/img/default_user.png'|app}} {% endif %})"></div>
 				</div>
@@ -127,8 +127,8 @@
 
 		<div class="file-field input-field">
 			<div class="btn">
-				<span>File</span>
-				<input name="avatar" type="file" id="accountAvatar">
+				<span>Выбрать новый аватар</span>
+				<input name="avatar" type="file" accept="image/*" id="accountAvatar">
 			</div>
 			<div class="file-path-wrapper">
 				<input class="file-path validate" type="text">
@@ -136,7 +136,7 @@
 		</div>
 	</div>
 
-	<button type="submit" class="btn btn-default" id="changeAvatar">Change Avatar</button><br><br>
+	<button type="submit" class="btn btn-default" id="changeAvatar">Сохранить выбранный аватар</button><br><br>
 
 {{ form_close() }}
 
