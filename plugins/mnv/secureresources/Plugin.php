@@ -1,4 +1,6 @@
-<?php namespace Mnv\SecureResources;
+<?php
+
+namespace Mnv\SecureResources;
 
 use Backend;
 use System\Classes\PluginBase;

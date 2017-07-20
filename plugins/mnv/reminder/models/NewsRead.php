@@ -1,4 +1,6 @@
-<?php namespace Mnv\Reminder\Models;
+<?php
+
+namespace Mnv\Reminder\Models;
 
 use Illuminate\Support\Facades\DB;
 use Model;
