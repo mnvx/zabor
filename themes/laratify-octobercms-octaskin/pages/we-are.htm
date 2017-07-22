@@ -1,0 +1,37 @@
+title = "Наши контакты"
+url = "/we-are"
+layout = "octaskin"
+description = "Зарегистрированные пользователи"
+is_hidden = 0
+
+[whoweare]
+==
+<section id="lt-header" class="lt-section lt-section-fullwidth section">
+  <div class="lt-container container">
+    <div class="lt-content lt-header-content">
+<div class="lt-row row">
+  <div class="lt-col col s12">
+    <div class="lt-parallax-header parallax-container" style="height: 400px;">
+      <div class="lt-parallax parallax"><img src="{{ 'assets/img/pages/portfolio/header/img-01.jpg'|theme }}" alt="image"></div>
+      <div class="lt-parallax-content">
+        <div class="valign-wrapper" style="height: 400px;">
+          <div class="valign">
+            <h2 class="lt-title">{{ this.page.title }}</h2>
+            <p class="lt-subtitle flow-text">{{ this.page.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+<section id="lt-mainpage" class="lt-section section">
+  <div class="lt-container container">
+    <div class="lt-content lt-mainpage-content">
+      {% component 'whoweare' %}
+    </div>
+  </div>
+</section>

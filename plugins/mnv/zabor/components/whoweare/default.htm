@@ -2,16 +2,20 @@
     {% set users = __SELF__.getUserList() %}
     <div class="lt-row row">
         {% for profile in users %}
-        <a href="{{ url(__SELF__.getUserProfileUrl(profile.id)) }}">
         <div class="lt-col col m3 s12">
-            <div class="avatar-small center-in-parent">
-                <div
-                        class="responsive-circle center-in-parent"
-                        style="background-image: url({% if profile.avatar.path %} {{profile.avatar.path}} {% else %} {{'plugins/clake/userextended/assets/img/default_user.png'|app}} {% endif %})"></div>
-            </div>
-            <p>{{ profile.name }} {{ profile.surname }}, участок {{ profile.zabor_stead }}</p>
+            <a href="{{ url(__SELF__.getUserProfileUrl(profile.id)) }}">
+                <div class="avatar-small center-in-parent">
+                    <div
+                            class="responsive-circle center-in-parent"
+                            style="background-image: url({% if profile.avatar.path %} {{profile.avatar.path}} {% else %} {{'plugins/clake/userextended/assets/img/default_user.png'|app}} {% endif %})"></div>
+                </div>
+            </a>
+            <p class="whoweare">
+                <a href="{{ url(__SELF__.getUserProfileUrl(profile.id)) }}">
+                    {{ profile.name }} {{ profile.surname }}, участок {{ profile.zabor_stead }}
+                </a>
+            </p>
         </div>
-        </a>
         {% endfor %}
     </div>
 </div>

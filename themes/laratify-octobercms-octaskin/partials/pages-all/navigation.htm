@@ -16,6 +16,7 @@
           <li class="{% if this.page.id == 'home' %}active{% endif %}"><a href="{{ 'home'|page }}">Главная</a></li>
           <li class="{% if this.page.id == 'blog-blog' %}active{% endif %}"><a href="{{ 'blog/blog'|page }}">Новости</a></li>
           <li class="{% if this.page.id == 'map' %}active{% endif %}"><a href="{{ 'map'|page }}">Карта</a></li>
+          <li class="{% if this.page.id == 'we-are' %}active{% endif %}"><a href="{{ 'we-are'|page }}">Мы</a></li>
           <li class="{% if this.page.id == 'contact' %}active{% endif %}"><a href="{{ 'contact'|page }}">Контакты</a></li>
           {% if user %}
           <li>
@@ -41,6 +42,7 @@
           <li class="{% if this.page.id == 'home' %}active{% endif %}"><a href="{{ 'home'|page }}">Главная</a></li>
           <li class="{% if this.page.id == 'blog-blog' %}active{% endif %}"><a href="{{ 'blog/blog'|page }}">Новости</a></li>
           <li class="{% if this.page.id == 'blog-blog' %}active{% endif %}"><a href="{{ 'map'|page }}">Карта</a></li>
+          <li class="{% if this.page.id == 'we-are' %}active{% endif %}"><a href="{{ 'we-are'|page }}">Мы</a></li>
           <li class="{% if this.page.id == 'contact' %}active{% endif %}"><a href="{{ 'contact'|page }}">Контакты</a></li>
           <li class="divider"></li>
           {% if user %}
