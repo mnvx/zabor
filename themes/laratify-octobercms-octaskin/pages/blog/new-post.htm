@@ -6,11 +6,17 @@ is_hidden = 0
 [survey]
 ==
 <?php
+function onStart()
+{
+    $this['categories'] = \RainLab\Blog\Models\Category::all();
+}
+
 function onSave()
 {
     $validator = Validator::make(post(), [
         'title' => 'required',
         'content' => 'required',
+        //'category' => 'required',
     ]);
 
     if ($validator->fails()) {
@@ -31,6 +37,10 @@ function onSave()
     }
     catch (\October\Rain\Exception\ValidationException $e) {
         return redirect($this->controller->currentPageUrl())->withErrors($e->getErrors());
+    }
+
+    if (post('category')) {
+        $post->categories()->sync([post('category')]);
     }
 
     // Store images
@@ -96,6 +106,19 @@ function onSave()
                     <label for="content">Текст новости</label><br><br>
                     <textarea id="content" name="content" class="materialize-textarea validate"></textarea>
                     <span data-validate-for>{{ errors.first('content') }}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <select name="category" class="validate">
+                        <option value="" disabled selected>Выберите категорию</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="title">Категория</label>
+                    <span data-validate-for>{{ errors.first('category') }}</span>
                 </div>
             </div>
 

@@ -9,6 +9,8 @@ function onStart()
     $slug = $this->getRouter()->getParameter('slug');
     $post = \Mnv\Blog\Models\Post::where('slug', '=', $slug)->first();
     $this['post'] = $post;
+    $this['categories'] = \RainLab\Blog\Models\Category::all();
+    $this['mainCategory'] = count($post->categories) > 0 ? $post->categories[0]->id : null;
 }
 
 function onSave()
@@ -16,6 +18,7 @@ function onSave()
     $validator = Validator::make(post(), [
         'title' => 'required',
         'content' => 'required',
+        //'category' => 'required',
     ]);
 
     if ($validator->fails()) {
@@ -31,6 +34,10 @@ function onSave()
     $post->updated_at = new \DateTime;
 
     $post->save();
+
+    if (post('category')) {
+        $post->categories()->sync([post('category')]);
+    }
 
     // Delete removed images
     if (!empty(post('delete_image'))) {
@@ -131,6 +138,19 @@ function onSave()
                         class="materialize-textarea validate">{{ form_value('content') }}</textarea>
                 <span data-validate-for="content"></span>
               </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <select name="category" class="validate">
+                        <option value="" disabled>Выберите категорию</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}" {% if (mainCategory == category.id) %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="title">Категория</label>
+                    <span data-validate-for>{{ errors.first('category') }}</span>
+                </div>
             </div>
 
             <div class="row">
