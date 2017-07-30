@@ -29,10 +29,7 @@ class PrepareGeoJsonDataCommand extends Command
             foreach ($results as $result) {
                 $numbers = explode(',', $result->number);
                 $arrayResult = $result->toArray();
-                $arrayResult['user'] = null;
-                if (isset($arrayResult['email']) && isset($users[$arrayResult['email']])) {
-                    $arrayResult['user'] = $users[$arrayResult['email']];
-                }
+                $arrayResult['user'] = $this->getUser(isset($arrayResult['email']) ? $arrayResult['email'] : null, $users);
                 foreach ($numbers as $number)
                 {
                     $resultsByKey[trim($number)][] = $arrayResult;
@@ -60,5 +57,20 @@ class PrepareGeoJsonDataCommand extends Command
 
             file_put_contents(config('app.geojson.prepared_file'), json_encode($geoJson));
         });
+    }
+
+    protected function getUser($excelEmail, $users)
+    {
+        if (!trim($excelEmail)) {
+            return null;
+        }
+
+        foreach (explode(',', $excelEmail) as $email) {
+            if (isset($users[trim($email)])) {
+                return $users[trim($email)];
+            }
+        }
+
+        return null;
     }
 }
