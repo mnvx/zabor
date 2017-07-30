@@ -23,6 +23,9 @@ function onStart()
     .white-text {
         color: #686868 !important;
     }
+    .leaflet-popup-content>ul>li {
+        margin-bottom: 1em;
+    }
 </style>
 
 <div>
@@ -51,7 +54,9 @@ function onStart()
         },
         // Навешиваеми свой попап на каждый полигон
         onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.data);
+            layer.bindPopup(feature.properties.data, {
+                minWidth: 300
+            });
         },
         filter: function (feature, layer) {
             return feature.properties.data !== undefined;

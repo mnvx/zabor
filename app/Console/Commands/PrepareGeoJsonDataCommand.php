@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Maatwebsite\Excel\Excel;
+use RainLab\User\Models\User;
 
 class PrepareGeoJsonDataCommand extends Command
 {
@@ -21,13 +22,20 @@ class PrepareGeoJsonDataCommand extends Command
         $excel = App::make('excel');
         $excel->load(config('app.geojson.excel_file'), function($reader) use ($geoJson) {
 
+            $users = User::all()->keyBy('email');
+
             $resultsByKey = [];
             $results = $reader->get();
             foreach ($results as $result) {
                 $numbers = explode(',', $result->number);
+                $arrayResult = $result->toArray();
+                $arrayResult['user'] = null;
+                if (isset($arrayResult['email']) && isset($users[$arrayResult['email']])) {
+                    $arrayResult['user'] = $users[$arrayResult['email']];
+                }
                 foreach ($numbers as $number)
                 {
-                    $resultsByKey[trim($number)][] = $result->toArray();
+                    $resultsByKey[trim($number)][] = $arrayResult;
                 }
             }
 
