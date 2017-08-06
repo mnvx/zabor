@@ -2,6 +2,7 @@
 
 namespace Mnv\Zabor;
 
+use Mnv\Zabor\Components\EditProfile;
 use Mnv\Zabor\Components\Profile;
 use Mnv\Zabor\Components\WhoWeAre;
 use System\Classes\PluginBase;
@@ -53,6 +54,7 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
+            EditProfile::class => 'editProfile',
             Profile::class => 'profile',
             WhoWeAre::class => 'whoweare',
         ];

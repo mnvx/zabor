@@ -1,0 +1,5 @@
+<div class="collection">
+    <a class="collection-item {% if this.page.id == 'auth-profile' %}active{% endif %}" href="{{ url(__SELF__.property('basicPage')) }}">Основное</a>
+    <a class="collection-item {% if this.page.id == 'auth-profile-password' %}active{% endif %}" href="{{ url(__SELF__.property('passwordPage')) }}">Сменить пароль</a>
+    <a class="collection-item {% if this.page.id == 'auth-profile-avatar' %}active{% endif %}" href="{{ url(__SELF__.property('avatarPage')) }}">Аватар</a>
+</div>

@@ -1,7 +1,7 @@
 title = "Профиль"
-url = "/auth/profile"
+url = "/auth/profile-avatar"
 layout = "octaskin"
-description = "Редактирование основной информации"
+description = "Смена аватара"
 is_hidden = 0
 
 [editProfile]
@@ -22,7 +22,7 @@ avatarPage = "auth/profile-avatar"
           {% partial 'editProfile::menu' %}
         </div>
         <div class="col m10">
-          {% partial 'editProfile::basic' %}
+          {% partial 'editProfile::avatar' %}
         </div>
       </div>
     </div>
