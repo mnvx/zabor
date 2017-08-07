@@ -1,1 +1,4 @@
-1.0.1: First version of zabor
+1.0.1: 'First version of zabor'
+1.0.2:
+    - 'Added table for store elextric meters'
+    - create_table_electric_meter.php

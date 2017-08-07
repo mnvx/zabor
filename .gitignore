@@ -1,4 +1,6 @@
 /bootstrap/compiled.php
+/public
+!/public/assets
 /vendor
 composer.phar
 .DS_Store

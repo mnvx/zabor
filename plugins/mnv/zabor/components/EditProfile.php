@@ -21,6 +21,14 @@ class EditProfile extends ComponentBase
         ];
     }
 
+    public function onRun()
+    {
+        parent::onRun();
+
+        $this->addJs('/plugins/mnv/zabor/assets/js/electric_meter.js');
+        $this->addJs('/modules/system/assets/ui/vendor/mustache/mustache.js');
+    }
+
     public function defineProperties()
     {
         return [
@@ -45,6 +53,13 @@ class EditProfile extends ComponentBase
                 'default'     => 'auth/profile-avatar',
                 'group'       => 'Links',
             ],
+            'electricMeterPage' => [
+                'title'       => 'Страница с электросчётчиками',
+                'description' => 'Страница управления счётчиками электроэнергии',
+                'type'        => 'dropdown',
+                'default'     => 'auth/profile-electric-meter',
+                'group'       => 'Links',
+            ],
         ];
     }
 
@@ -59,6 +74,11 @@ class EditProfile extends ComponentBase
     }
 
     public function getAvatarPageOptions()
+    {
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+    }
+
+    public function getElectricMeterPageOptions()
     {
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
