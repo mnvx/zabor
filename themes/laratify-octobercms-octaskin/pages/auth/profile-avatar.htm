@@ -18,10 +18,10 @@ avatarPage = "auth/profile-avatar"
         <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">{{ message }}</div>
       {% endflash %}
       <div class="row">
-        <div class="col m2">
+        <div class="col m3">
           {% partial 'editProfile::menu' %}
         </div>
-        <div class="col m10">
+        <div class="col m9">
           {% partial 'editProfile::avatar' %}
         </div>
       </div>
