@@ -32,7 +32,8 @@
         "laravel/framework": "5.1.*",
         "twig/twig": "1.33.*",
         "wikimedia/composer-merge-plugin": "dev-master",
-        "maatwebsite/excel": "^2.1"
+        "maatwebsite/excel": "^2.1",
+        "barryvdh/laravel-ide-helper": "^2.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

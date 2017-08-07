@@ -2,6 +2,7 @@
 
 namespace Mnv\Zabor;
 
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Mnv\Zabor\Components\EditProfile;
 use Mnv\Zabor\Components\Profile;
 use Mnv\Zabor\Components\WhoWeAre;
@@ -44,6 +45,9 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
+        if ($this->app->environment() === 'local') {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
     }
 
     /**
