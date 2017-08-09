@@ -9,7 +9,7 @@
 	<div class="row electric-meters controls">
 		<div class="input-field col s12">
 			<button
-					class="btn"
+					class="btn grey darken-2"
 					onclick="ElectricMeter.addCounter(event)"
 					id="electricAddCounter">Добавить счётчик<i class="material-icons left">add</i></button>
 		</div>
@@ -68,3 +68,13 @@
 <div class="message-box">You are not logged in.</div>
 
 {% endif %}
+
+<script>
+    var electricCounters = [];
+    {% for counter in __SELF__.getCounters() %}
+    	electricCounters.push({
+            counter_number: {{ counter.counter_number }},
+			tariff_number: {{ counter.tariff_number }}
+		});
+    {% endfor %}
+</script>

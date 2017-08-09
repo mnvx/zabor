@@ -5,7 +5,9 @@ namespace Mnv\Zabor\Components;
 use Clake\Userextended\Models\Settings as UserExtendedSettings;
 use Cms\Classes\ComponentBase;
 use Cms\Classes\Page;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Mnv\Zabor\Models\ElectricMeter;
 use October\Rain\Exception\ValidationException;
 use October\Rain\Support\Facades\Flash;
 use RainLab\User\Facades\Auth;
@@ -140,5 +142,39 @@ class EditProfile extends ComponentBase
         }
 
         Flash::success('Пароль успешно изменен');
+    }
+
+    public function onEditElectricMeters()
+    {
+        $user = Auth::getUser();
+
+        DB::beginTransaction();
+        try {
+            $data = [];
+            ElectricMeter::where('user_id', '=' , $user->id)->delete();
+            foreach (post('counter') as $counter) {
+                $data[] = [
+                    'user_id' => $user->id,
+                    'counter_number' => $counter['number'],
+                    'tariff_number' => $counter['tariff'],
+                    'created_at' => DB::raw('NOW()'),
+                ];
+            }
+            ElectricMeter::insert($data);
+            DB::commit();
+        }
+        catch(\Throwable $e) {
+            DB::rollBack();
+            Flash::error('Произошла ошибка' . $e->getMessage());
+            return;
+        };
+
+        Flash::success('Информация о счетчиках сохранена');
+    }
+
+    public function getCounters()
+    {
+        $user = Auth::getUser();
+        return ElectricMeter::where('user_id', '=' , $user->id)->get();
     }
 }

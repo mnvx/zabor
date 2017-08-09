@@ -1,6 +1,6 @@
 <?php
 
-namespace Mnv\Reminder\Models;
+namespace Mnv\Zabor\Models;
 
 use Model;
 
