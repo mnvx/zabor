@@ -6,6 +6,9 @@ is_hidden = 0
 [reminder]
 
 [whoweare]
+
+[electricMeters]
+servicePage = "http://askue-mo.ru/"
 ==
 <?php
 function onStart()
@@ -44,7 +47,14 @@ function onStart()
   <div class="lt-container container">
     <div class="lt-content">
       {% if white %}
-        {% component 'reminder' %}
+        <div class="row">
+          <div class="col m8">
+            {% component 'reminder' %}
+          </div>
+          <div class="col m4">
+            {% component 'electricMeters' %}
+          </div>
+        </div>
       {% else %}
         <h4>Добро пожаловать</h4>
       {% endif %}

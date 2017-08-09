@@ -1,0 +1,10 @@
+<h4>Мои счетчики</h4>
+<ul>
+{% for counter in __SELF__.getCounters() %}
+<li><a target="_blank" href="{{ __SELF__.property('servicePage') }}?deviceid={{ counter.counter_number }}&tariff={{ counter.tariff_number }}&from={{ __SELF__.getStartDate() }}&do=getdata&selection=2">
+    Счетчик {{ counter.counter_number }}
+    (тариф {{ counter.tariff_number }})</a>
+</li>
+{% endfor %}
+</ul>
+<a class="btn grey" href="{{ url('auth/profile-electric-meter') }}">Настроить</a>

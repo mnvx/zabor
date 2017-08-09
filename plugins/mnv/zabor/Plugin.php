@@ -4,6 +4,7 @@ namespace Mnv\Zabor;
 
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Mnv\Zabor\Components\EditProfile;
+use Mnv\Zabor\Components\ElectricMeters;
 use Mnv\Zabor\Components\Profile;
 use Mnv\Zabor\Components\WhoWeAre;
 use System\Classes\PluginBase;
@@ -59,6 +60,7 @@ class Plugin extends PluginBase
     {
         return [
             EditProfile::class => 'editProfile',
+            ElectricMeters::class => 'electricMeters',
             Profile::class => 'profile',
             WhoWeAre::class => 'whoweare',
         ];

@@ -152,7 +152,7 @@ class EditProfile extends ComponentBase
         try {
             $data = [];
             ElectricMeter::where('user_id', '=' , $user->id)->delete();
-            foreach (post('counter') as $counter) {
+            foreach (post('counter') ?: [] as $counter) {
                 $data[] = [
                     'user_id' => $user->id,
                     'counter_number' => $counter['number'],
