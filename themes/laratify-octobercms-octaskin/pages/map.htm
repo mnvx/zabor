@@ -48,9 +48,11 @@ function onStart()
     // Рисуем на карте полученные полигоны
     L.geoJson(getJsonData, {
         // Стиль полигонов
-        style: {
-            color: 'green',
-            weight: 1
+        style: function(feature) {
+            return {
+                color: feature.properties.hasContacts ? 'green' : 'black',
+                weight: 1
+            };
         },
         // Навешиваеми свой попап на каждый полигон
         onEachFeature: function (feature, layer) {

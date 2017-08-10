@@ -44,6 +44,7 @@ class PrepareGeoJsonDataCommand extends Command
                 }
                 $feature->geometry->type = 'Polygon';
                 $feature->geometry->coordinates = [ $feature->geometry->coordinates ];
+                $feature->properties->hasContacts = false;
 
                 $ref = isset($feature->properties->ref) ? $feature->properties->ref : null;
                 if (!empty($resultsByKey[$ref]))
@@ -52,6 +53,11 @@ class PrepareGeoJsonDataCommand extends Command
                         'number' => $resultsByKey[$ref][0]['number'],
                         'data' => $resultsByKey[$ref],
                     ])->render();
+                    foreach ($resultsByKey[$ref] as $item) {
+                        if ($item['email'] || $item['phone']) {
+                            $feature->properties->hasContacts = true;
+                        }
+                    }
                 }
             }
 
