@@ -125,8 +125,8 @@ function onStart()
                     }
                     return search && feature.properties.stead && (
                         (feature.properties.name && feature.properties.name.toLowerCase().indexOf(search) >= 0)
-                        || (search.length > 5 && feature.properties.phone && feature.properties.phone.toLowerCase().indexOf(search) >= 0)
-                        || (search.length > 5 && feature.properties.email && feature.properties.email.toLowerCase().indexOf(search) >= 0)
+                        || (search.length >= 4 && feature.properties.phone && feature.properties.phone.toLowerCase().replace(/[\s-]/g, '').indexOf(search.replace(/[\s-]/g, '')) >= 0)
+                        || (search.length >= 4 && feature.properties.email && feature.properties.email.toLowerCase().indexOf(search) >= 0)
                         || isStead
                     );
                 }
