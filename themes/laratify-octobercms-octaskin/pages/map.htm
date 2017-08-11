@@ -29,19 +29,23 @@ function onStart()
 </style>
 
 <div>
-  <div id="map" class="lt-slider slider fullscreen">
+  <div id="map" class="lt-slider slider fullscreen"></div>
+  <div class="map-sidebar map-sidebar-js">
+    <i class="material-icons right button close-js">close</i>
+    <input type="text" class="search-string-js" placeholder="Поиск"><br>
+  </div>
 </div>
 
 <script>
     var tiliktinoLatLon = [56.0858, 36.612];
     var zoom = 17;
-    var mymap = L.map('map').setView(tiliktinoLatLon, zoom);
+    var map = L.map('map').setView(tiliktinoLatLon, zoom);
     var osmTilesUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
     L.tileLayer(osmTilesUrl, {
         maxZoom: 19,
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    }).addTo(mymap);
+    }).addTo(map);
 
     var getJsonData = {{ geoJson|raw }};
 
@@ -63,7 +67,7 @@ function onStart()
         filter: function (feature, layer) {
             return feature.properties.data !== undefined;
         }
-    }).addTo(mymap);
+    }).addTo(map);
 
 
     // Move controls to other place
@@ -80,9 +84,55 @@ function onStart()
         createCorner('verticalcenter', 'left');
         createCorner('verticalcenter', 'right');
     }
-    addControlPlaceholders(mymap);
+    addControlPlaceholders(map);
 
     // Change the position of the Zoom Control to a newly created placeholder.
-    mymap.zoomControl.setPosition('verticalcenterright');
+    map.zoomControl.setPosition('verticalcenterright');
+
+    var searchLayer;
+    document.addEventListener("DOMContentLoaded", function() {
+        $('.close-js').on('click', function(e) {
+            $(e.target).parents('.map-sidebar-js').hide();
+        });
+        $('.search-string-js').on('input', function(e) {
+            console.log(1);
+            var search = $('.search-string-js').val().toLowerCase();
+
+            if (searchLayer) {
+                map.removeLayer(searchLayer);
+            }
+            searchLayer = L.geoJson(getJsonData, {
+                style: {
+                    color: 'red',
+                    weight: 1
+                },
+                // Навешиваеми свой попап на каждый полигон
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.data, {
+                        minWidth: 300
+                    });
+                },
+                filter: function (feature, layer) {
+                    var isStead = false;
+                    if (feature.properties.stead) {
+                        var steads = feature.properties.stead.split(',');
+                        for (var key in steads) {
+                            if (steads[key].replace(/\s/g, '') === search) {
+                                isStead = true;
+                                break;
+                            }
+                        }
+                    }
+                    return search && feature.properties.stead && (
+                        (feature.properties.name && feature.properties.name.toLowerCase().indexOf(search) >= 0)
+                        || (search.length > 5 && feature.properties.phone && feature.properties.phone.toLowerCase().indexOf(search) >= 0)
+                        || (search.length > 5 && feature.properties.email && feature.properties.email.toLowerCase().indexOf(search) >= 0)
+                        || isStead
+                    );
+                }
+            });
+            searchLayer.addTo(map);
+        });
+    });
 
 </script>

@@ -21,3 +21,18 @@ span[data-validate-for] {
 .whoweare {
     min-height: 50pt;
 }
+
+.map-sidebar {
+    position: absolute;
+    left: 10pt;
+    top: 50pt;
+    background: white;
+    opacity: 0.8;
+    color: black;
+    z-index: 1000;
+    padding: 10pt;
+}
+
+.button {
+    cursor: pointer;
+}

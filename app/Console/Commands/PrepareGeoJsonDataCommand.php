@@ -53,11 +53,18 @@ class PrepareGeoJsonDataCommand extends Command
                         'number' => $resultsByKey[$ref][0]['number'],
                         'data' => $resultsByKey[$ref],
                     ])->render();
+
                     foreach ($resultsByKey[$ref] as $item) {
                         if ($item['email'] || $item['phone']) {
                             $feature->properties->hasContacts = true;
                         }
+
+                        $feature->properties->name = (isset($feature->properties->name) ? $feature->properties->name . '|' : '') . $item['name'];
+                        $feature->properties->phone = (isset($feature->properties->phone) ? $feature->properties->phone . '|' : '') . $item['phone'];
+                        $feature->properties->email = (isset($feature->properties->email) ? $feature->properties->email . '|' : '') . $item['email'];
                     }
+
+                    $feature->properties->stead = $resultsByKey[$ref][0]['number'];
                 }
             }
 
