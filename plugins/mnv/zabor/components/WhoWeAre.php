@@ -17,7 +17,7 @@ class WhoWeAre extends ComponentBase
 
     public function getUserList()
     {
-        return User::orderByRaw("(case when regexp_replace(zabor_stead, '[^\\d]+', '') ~ '[\\d]+' then regexp_replace(zabor_stead, '[^\\d]+', '') else '0' end) ::int")->get();
+        return User::orderByRaw("(case when regexp_replace(zabor_stead, '[^\\d]+', '', 'g') ~ '[\\d]+' then regexp_replace(zabor_stead, '[^\\d]+', '', 'g') else '0' end) ::int")->get();
     }
 
     public function getUserProfileUrl($userId)
