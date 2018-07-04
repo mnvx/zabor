@@ -38,12 +38,20 @@ class PrepareGeoJsonDataCommand extends Command
 
             foreach ($geoJson->features as $feature)
             {
-                if ($feature->geometry->type !== 'LineString')
-                {
+                if (!$feature->geometry || !in_array($feature->geometry->type, [
+                    'LineString',
+                    'Polygon',
+                ])) {
                     continue;
                 }
+
+                if ($feature->geometry->type !== 'Polygon') {
+                    $feature->geometry->coordinates = [ $feature->geometry->coordinates ];
+                }
                 $feature->geometry->type = 'Polygon';
-                $feature->geometry->coordinates = [ $feature->geometry->coordinates ];
+                if (!$feature->properties) {
+                    $feature->properties = new \StdClass();
+                }
                 $feature->properties->hasContacts = false;
 
                 $ref = isset($feature->properties->ref) ? $feature->properties->ref : null;
